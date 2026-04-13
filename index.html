@@ -7,247 +7,215 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --blue: #6675ED;
-    --blue-mid: #808EFF;
-    --blue-light: #BFC6FF;
-    --bg: #F6F7FF;
-    --navy: #1E2260;
-    --text: #2D3380;
-    --muted: #8890CC;
-    --white: #FFFFFF;
-    --green: #22c55e;
-    --green-dim: rgba(34,197,94,0.1);
-    --red: #ef4444;
-    --red-dim: rgba(239,68,68,0.1);
-    --amber: #f59e0b;
-    --amber-dim: rgba(245,158,11,0.1);
-    --orange: #f97316;
-    --orange-dim: rgba(249,115,22,0.1);
-    --radius: 14px;
-    --radius-sm: 8px;
-    --radius-pill: 100px;
-    --shadow: 0 8px 48px rgba(102,117,237,0.12);
-    --font: 'Poppins', Arial, sans-serif;
+    --blue:#6675ED; --blue-mid:#808EFF; --blue-light:#BFC6FF;
+    --bg:#F6F7FF; --navy:#1E2260; --text:#2D3380; --muted:#8890CC; --white:#FFFFFF;
+    --green:#22c55e; --green-dim:rgba(34,197,94,0.1);
+    --red:#ef4444; --red-dim:rgba(239,68,68,0.1);
+    --amber:#f59e0b; --amber-dim:rgba(245,158,11,0.1);
+    --orange:#f97316; --orange-dim:rgba(249,115,22,0.1);
+    --purple:#9333ea; --purple-dim:rgba(147,51,234,0.1);
+    --radius:14px; --radius-sm:8px; --radius-pill:100px;
+    --shadow:0 8px 48px rgba(102,117,237,0.12);
+    --font:'Poppins',Arial,sans-serif;
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 13px; line-height: 1.6; min-height: 100vh; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px;line-height:1.6;min-height:100vh;}
 
   /* Modal */
-  .modal-overlay {
-    position: fixed; inset: 0; z-index: 100;
-    background: rgba(30,34,96,0.55);
-    display: flex; align-items: center; justify-content: center; padding: 24px;
-  }
-  .modal-overlay.hidden { display: none; }
-  .modal-box {
-    background: var(--white); border-radius: var(--radius);
-    box-shadow: var(--shadow); padding: 36px 32px; width: 100%; max-width: 440px;
-  }
-  .modal-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
-  .modal-mark {
-    width: 38px; height: 38px; border-radius: 10px;
-    background: linear-gradient(135deg, #6675ED 0%, #808EFF 100%);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 17px; font-weight: 800; color: #fff;
-  }
-  .modal-brand { font-size: 16px; font-weight: 700; color: var(--navy); }
-  .modal-title { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
-  .modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
-  .modal-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
-  .modal-input {
-    width: 100%; padding: 12px 14px;
-    border: 1.5px solid var(--blue-light); border-radius: var(--radius-sm);
-    font-family: var(--font); font-size: 13px; color: var(--navy);
-    background: var(--bg); outline: none; transition: border-color 0.15s; margin-bottom: 8px;
-  }
-  .modal-input:focus { border-color: var(--blue); }
-  .modal-hint { font-size: 11px; color: var(--muted); margin-bottom: 20px; }
-  .modal-btn {
-    width: 100%; padding: 14px;
-    background: linear-gradient(135deg, #6675ED 0%, #808EFF 100%);
-    border: none; border-radius: var(--radius-pill);
-    font-family: var(--font); font-size: 14px; font-weight: 700;
-    color: #fff; cursor: pointer; transition: opacity 0.15s;
-  }
-  .modal-btn:hover { opacity: 0.9; }
-  .modal-error { font-size: 12px; color: var(--red); margin-bottom: 12px; display: none; font-weight: 500; }
+  .modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(30,34,96,0.55);display:flex;align-items:center;justify-content:center;padding:24px;}
+  .modal-overlay.hidden{display:none;}
+  .modal-box{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:36px 32px;width:100%;max-width:440px;}
+  .modal-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px;}
+  .modal-mark{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#6675ED,#808EFF);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;}
+  .modal-brand{font-size:16px;font-weight:700;color:var(--navy);}
+  .modal-title{font-size:20px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+  .modal-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;}
+  .modal-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;}
+  .modal-input{width:100%;padding:12px 14px;border:1.5px solid var(--blue-light);border-radius:var(--radius-sm);font-family:var(--font);font-size:13px;color:var(--navy);background:var(--bg);outline:none;transition:border-color 0.15s;margin-bottom:8px;}
+  .modal-input:focus{border-color:var(--blue);}
+  .modal-hint{font-size:11px;color:var(--muted);margin-bottom:20px;}
+  .modal-btn{width:100%;padding:14px;background:linear-gradient(135deg,#6675ED,#808EFF);border:none;border-radius:var(--radius-pill);font-family:var(--font);font-size:14px;font-weight:700;color:#fff;cursor:pointer;transition:opacity 0.15s;}
+  .modal-btn:hover{opacity:0.9;}
+  .modal-error{font-size:12px;color:var(--red);margin-bottom:12px;display:none;font-weight:500;}
 
   /* Accent bar */
-  .accent-bar { height: 5px; background: linear-gradient(90deg, #6675ED 0%, #808EFF 50%, #BFC6FF 100%); }
+  .accent-bar{height:5px;background:linear-gradient(90deg,#6675ED 0%,#808EFF 50%,#BFC6FF 100%);}
 
   /* Shell */
-  .shell { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+  .shell{max-width:960px;margin:0 auto;padding:0 24px 80px;}
 
   /* Header */
-  .site-header {
-    padding: 28px 0 20px; border-bottom: 1.5px solid var(--blue-light);
-    margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  }
-  .header-left { display: flex; align-items: center; gap: 12px; }
-  .header-mark {
-    width: 38px; height: 38px; border-radius: 10px;
-    background: linear-gradient(135deg, #6675ED 0%, #808EFF 100%);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 17px; font-weight: 800; color: #fff; flex-shrink: 0;
-  }
-  .header-title { font-size: 17px; font-weight: 700; color: var(--navy); }
-  .header-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
-  .header-key-btn {
-    font-family: var(--font); font-size: 11px; font-weight: 600;
-    padding: 7px 14px; border-radius: var(--radius-pill);
-    border: 1.5px solid var(--blue-light); background: transparent;
-    color: var(--blue); cursor: pointer; transition: all 0.15s;
-  }
-  .header-key-btn:hover { background: var(--white); border-color: var(--blue); }
+  .site-header{padding:28px 0 20px;border-bottom:1.5px solid var(--blue-light);margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  .header-left{display:flex;align-items:center;gap:12px;}
+  .header-mark{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#6675ED,#808EFF);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;flex-shrink:0;}
+  .header-title{font-size:17px;font-weight:700;color:var(--navy);}
+  .header-sub{font-size:11px;color:var(--muted);margin-top:1px;}
+  .header-key-btn{font-family:var(--font);font-size:11px;font-weight:600;padding:7px 14px;border-radius:var(--radius-pill);border:1.5px solid var(--blue-light);background:transparent;color:var(--blue);cursor:pointer;transition:all 0.15s;}
+  .header-key-btn:hover{background:var(--white);border-color:var(--blue);}
 
   /* Stats */
-  .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px; }
-  .stat-tile {
-    background: var(--white); border-radius: var(--radius-sm);
-    border: 1.5px solid var(--blue-light); padding: 14px 16px;
-  }
-  .stat-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-  .stat-val { font-size: 26px; font-weight: 800; color: var(--navy); line-height: 1; }
-  .stat-tile.s-approved .stat-val { color: var(--green); }
-  .stat-tile.s-rejected .stat-val { color: var(--red); }
-  .stat-tile.s-inprog .stat-val { color: var(--amber); }
+  .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px;}
+  .stat-tile{background:var(--white);border-radius:var(--radius-sm);border:1.5px solid var(--blue-light);padding:14px 16px;}
+  .stat-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+  .stat-val{font-size:26px;font-weight:800;color:var(--navy);line-height:1;}
+  .stat-tile.s-approved .stat-val{color:var(--green);}
+  .stat-tile.s-rejected .stat-val{color:var(--red);}
+  .stat-tile.s-inprog .stat-val{color:var(--amber);}
 
   /* Section label */
-  .section-label {
-    font-size: 10px; font-weight: 600; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.08em;
-    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
-  }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--blue-light); }
+  .section-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--blue-light);}
 
   /* Product grid */
-  .product-grid { display: flex; flex-direction: column; gap: 14px; }
+  .product-grid{display:flex;flex-direction:column;gap:16px;}
+  .product-card{background:var(--white);border-radius:var(--radius);border:1.5px solid var(--blue-light);box-shadow:0 2px 12px rgba(102,117,237,0.06);overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s;}
+  .product-card.has-videos{border-color:var(--blue);box-shadow:0 4px 20px rgba(102,117,237,0.14);}
+  .product-card-header{padding:16px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+  .product-brand{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;}
+  .product-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px;line-height:1.4;}
+  .product-desc{font-size:11px;color:var(--muted);line-height:1.5;}
+  .product-actions{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap;padding-top:2px;}
 
-  .product-card {
-    background: var(--white); border-radius: var(--radius);
-    border: 1.5px solid var(--blue-light);
-    box-shadow: 0 2px 12px rgba(102,117,237,0.06);
-    overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .product-card.has-videos { border-color: var(--blue); box-shadow: 0 4px 20px rgba(102,117,237,0.14); }
+  /* Buttons */
+  button{font-family:var(--font);cursor:pointer;transition:all 0.15s;}
+  button:active{transform:scale(0.97);}
+  button:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
 
-  .product-card-header {
-    padding: 16px 20px; display: flex; align-items: flex-start;
-    justify-content: space-between; gap: 16px; background: var(--white);
-  }
-  .product-brand { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
-  .product-name { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 3px; line-height: 1.4; }
-  .product-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
-  .product-actions { display: flex; gap: 8px; flex-shrink: 0; padding-top: 2px; }
+  .btn-img{font-size:12px;font-weight:600;padding:9px 16px;border-radius:var(--radius-pill);background:linear-gradient(135deg,#6675ED,#808EFF);border:none;color:#fff;box-shadow:0 4px 16px rgba(102,117,237,0.3);}
+  .btn-img:hover{opacity:0.9;box-shadow:0 6px 20px rgba(102,117,237,0.45);}
+  .btn-prompt{font-size:12px;font-weight:600;padding:9px 16px;border-radius:var(--radius-pill);background:transparent;border:1.5px solid var(--blue);color:var(--blue);}
+  .btn-prompt:hover{background:rgba(102,117,237,0.08);}
+  .btn-exp{font-size:12px;font-weight:600;padding:9px 16px;border-radius:var(--radius-pill);background:transparent;border:1.5px solid var(--orange);color:var(--orange);}
+  .btn-exp:hover{background:var(--orange-dim);}
 
-  button { font-family: var(--font); cursor: pointer; transition: all 0.15s; }
-  button:active { transform: scale(0.97); }
-  button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+  .btn-sm{font-size:11px;font-weight:600;padding:6px 12px;border-radius:var(--radius-pill);border:1.5px solid;}
+  .btn-approve{border-color:var(--green);color:var(--green);background:transparent;}
+  .btn-approve:hover{background:var(--green-dim);}
+  .btn-reject{border-color:var(--red);color:var(--red);background:transparent;}
+  .btn-reject:hover{background:var(--red-dim);}
+  .btn-regen{border-color:var(--amber);color:var(--amber);background:transparent;}
+  .btn-regen:hover{background:var(--amber-dim);}
 
-  .btn-gen {
-    font-size: 12px; font-weight: 600; padding: 9px 16px; border-radius: var(--radius-pill);
-    background: linear-gradient(135deg, #6675ED 0%, #808EFF 100%);
-    border: none; color: #fff; box-shadow: 0 4px 16px rgba(102,117,237,0.3);
-  }
-  .btn-gen:hover { opacity: 0.9; box-shadow: 0 6px 20px rgba(102,117,237,0.45); }
+  .btn-copy{font-size:10px;font-weight:600;padding:4px 10px;border-radius:var(--radius-pill);border:1px solid var(--blue-light);color:var(--muted);background:transparent;margin-top:6px;display:inline-block;}
+  .btn-copy:hover{border-color:var(--blue);color:var(--blue);}
+  .btn-copy.copied{border-color:var(--green);color:var(--green);}
 
-  .btn-exp {
-    font-size: 12px; font-weight: 600; padding: 9px 16px; border-radius: var(--radius-pill);
-    background: transparent; border: 1.5px solid var(--orange); color: var(--orange);
-  }
-  .btn-exp:hover { background: var(--orange-dim); }
+  /* Videos list */
+  .videos-list{display:flex;flex-direction:column;}
+  .video-block{border-top:1.5px solid var(--bg);padding:16px 20px;animation:fadeUp 0.3s ease;}
+  .video-block.type-img{border-left:3px solid var(--blue);}
+  .video-block.type-prompt{border-left:3px solid var(--blue-mid);}
+  .video-block.type-exp{border-left:3px solid var(--orange);}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
-  .btn-sm { font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: var(--radius-pill); border: 1.5px solid; }
-  .btn-approve { border-color: var(--green); color: var(--green); background: transparent; }
-  .btn-approve:hover { background: var(--green-dim); }
-  .btn-reject { border-color: var(--red); color: var(--red); background: transparent; }
-  .btn-reject:hover { background: var(--red-dim); }
-  .btn-regen { border-color: var(--amber); color: var(--amber); background: transparent; }
-  .btn-regen:hover { background: var(--amber-dim); }
-  .btn-copy {
-    font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-pill);
-    border: 1px solid var(--blue-light); color: var(--muted); background: transparent; margin-top: 8px;
-  }
-  .btn-copy:hover { border-color: var(--blue); color: var(--blue); }
-  .btn-copy.copied { border-color: var(--green); color: var(--green); }
+  .video-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;}
+  .video-format{font-size:14px;font-weight:700;color:var(--navy);line-height:1.3;}
+  .badges{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
 
-  .videos-list { display: flex; flex-direction: column; }
-  .video-block { border-top: 1.5px solid var(--bg); padding: 16px 20px; animation: fadeUp 0.3s ease; }
-  .video-block.experimental { border-left: 3px solid var(--orange); }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  .badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:var(--radius-pill);letter-spacing:0.04em;text-transform:uppercase;white-space:nowrap;border:1px solid transparent;}
+  .badge-img{background:rgba(102,117,237,0.1);color:var(--blue);border-color:rgba(102,117,237,0.25);}
+  .badge-prompt{background:rgba(128,142,255,0.1);color:var(--blue-mid);border-color:rgba(128,142,255,0.25);}
+  .badge-exp{background:var(--orange-dim);color:var(--orange);border-color:rgba(249,115,22,0.25);}
+  .badge-draft{background:var(--bg);color:var(--muted);border-color:var(--blue-light);}
+  .badge-approved{background:var(--green-dim);color:var(--green);border-color:rgba(34,197,94,0.25);}
+  .badge-rejected{background:var(--red-dim);color:var(--red);border-color:rgba(239,68,68,0.25);}
+  .badge-inprog{background:var(--amber-dim);color:var(--amber);border-color:rgba(245,158,11,0.25);}
 
-  .video-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
-  .video-format { font-size: 14px; font-weight: 700; color: var(--navy); line-height: 1.3; }
-  .badges { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .status-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+  select{font-family:var(--font);font-size:11px;font-weight:600;padding:5px 10px;border-radius:var(--radius-pill);border:1.5px solid var(--blue-light);background:var(--bg);color:var(--text);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;}
+  select:hover{border-color:var(--blue);}
 
-  .badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: var(--radius-pill); letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; }
-  .badge-exp { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(249,115,22,0.25); }
-  .badge-draft { background: var(--bg); color: var(--muted); border: 1px solid var(--blue-light); }
-  .badge-approved { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,197,94,0.25); }
-  .badge-rejected { background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,68,68,0.25); }
-  .badge-inprog { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,158,11,0.25); }
+  /* Product info banner */
+  .product-info-banner{background:linear-gradient(135deg,rgba(102,117,237,0.06),rgba(191,198,255,0.1));border:1.5px solid var(--blue-light);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px;}
+  .product-info-label{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+  .product-info-text{font-size:11px;color:var(--text);line-height:1.7;}
 
-  .status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-  select {
-    font-family: var(--font); font-size: 11px; font-weight: 600;
-    padding: 5px 10px; border-radius: var(--radius-pill);
-    border: 1.5px solid var(--blue-light); background: var(--bg);
-    color: var(--text); cursor: pointer; outline: none; appearance: none; -webkit-appearance: none;
-  }
-  select:hover { border-color: var(--blue); }
+  /* Visual consistency block */
+  .visual-block{background:var(--navy);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px;}
+  .visual-label{font-size:10px;font-weight:700;color:var(--blue-light);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+  .visual-text{font-size:11px;color:#e8eaff;line-height:1.7;}
 
-  .scenes-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
-  .scene-block {
-    background: var(--bg); border: 1.5px solid var(--blue-light);
-    border-radius: var(--radius-sm); padding: 12px 14px;
-  }
-  .scene-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-  .scene-num { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-  .scene-mode-pill {
-    font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-pill);
-    background: linear-gradient(135deg, #6675ED, #808EFF); color: #fff;
-    text-transform: uppercase; letter-spacing: 0.05em;
-  }
-  .scene-prompt { font-size: 12px; color: var(--text); line-height: 1.7; }
+  /* Character image prompt block */
+  .char-block{background:rgba(102,117,237,0.06);border:1.5px solid var(--blue-light);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px;}
+  .char-label{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+  .char-prompt{font-size:12px;color:var(--text);line-height:1.7;}
 
-  .feedback-section { border-top: 1.5px solid var(--blue-light); padding-top: 12px; margin-top: 4px; }
-  .feedback-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-  textarea {
-    width: 100%; font-family: var(--font); font-size: 12px;
-    padding: 10px 12px; border-radius: var(--radius-sm);
-    border: 1.5px solid var(--blue-light); background: var(--bg);
-    color: var(--text); resize: vertical; min-height: 64px;
-    line-height: 1.6; outline: none; transition: border-color 0.15s;
-  }
-  textarea:focus { border-color: var(--blue); }
-  textarea::placeholder { color: var(--muted); }
-  .feedback-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; align-items: center; }
+  /* Tabs */
+  .tab-bar{display:flex;gap:6px;margin-bottom:14px;border-bottom:1.5px solid var(--blue-light);padding-bottom:0;}
+  .tab-btn{font-family:var(--font);font-size:11px;font-weight:600;padding:7px 14px;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;transition:all 0.15s;border-radius:0;}
+  .tab-btn:hover{color:var(--blue);}
+  .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
+  .tab-btn:active{transform:none;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
 
-  .generating { display: flex; align-items: center; gap: 10px; padding: 14px 0; color: var(--muted); font-size: 12px; font-weight: 500; }
-  .dots { display: flex; gap: 4px; }
-  .dots span {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: linear-gradient(135deg, #6675ED, #808EFF);
-    animation: blink 1.2s ease-in-out infinite;
-  }
-  .dots span:nth-child(2) { animation-delay: 0.2s; }
-  .dots span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes blink { 0%,80%,100%{opacity:0.2} 40%{opacity:1} }
+  /* Scenes */
+  .scenes-list{display:flex;flex-direction:column;gap:12px;}
+  .scene-block{background:var(--bg);border:1.5px solid var(--blue-light);border-radius:var(--radius-sm);padding:14px;}
+  .scene-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .scene-num{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
+  .scene-hook-pill{font-size:9px;font-weight:700;padding:2px 8px;border-radius:var(--radius-pill);background:linear-gradient(135deg,#f97316,#f59e0b);color:#fff;text-transform:uppercase;letter-spacing:0.05em;}
+  .scene-type-pill{font-size:9px;font-weight:700;padding:2px 8px;border-radius:var(--radius-pill);background:linear-gradient(135deg,#6675ED,#808EFF);color:#fff;text-transform:uppercase;letter-spacing:0.05em;}
 
-  .error-msg { font-size: 12px; color: var(--red); padding: 10px 0; font-weight: 500; }
-  .empty-state { padding: 14px 20px 18px; color: var(--muted); font-size: 12px; }
+  .scene-section-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin:10px 0 4px;}
+  .scene-prompt-text{font-size:12px;color:var(--text);line-height:1.7;}
 
-  @media (max-width: 600px) {
-    .product-card-header { flex-direction: column; }
-    .product-actions { width: 100%; flex-wrap: wrap; }
-    .stats-bar { grid-template-columns: repeat(2,1fr); }
-    .site-header { flex-direction: column; align-items: flex-start; }
+  .dialogue-block{background:var(--white);border:1px solid var(--blue-light);border-radius:var(--radius-sm);padding:10px 12px;margin-top:8px;}
+  .dialogue-speaker{font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;}
+  .dialogue-text{font-size:12px;color:var(--navy);font-weight:600;line-height:1.6;font-style:italic;}
+  .dialogue-charcount{font-size:10px;color:var(--muted);margin-top:4px;}
+
+  /* Delivery toggle */
+  .delivery-toggle{display:flex;gap:6px;margin-top:8px;align-items:center;}
+  .delivery-label{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;}
+  .toggle-btn{font-size:10px;font-weight:600;padding:3px 10px;border-radius:var(--radius-pill);border:1px solid var(--blue-light);background:transparent;color:var(--muted);cursor:pointer;}
+  .toggle-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+  .toggle-btn:active{transform:scale(0.97);}
+
+  /* B-roll */
+  .broll-list{display:flex;flex-direction:column;gap:12px;}
+  .broll-block{background:var(--bg);border:1.5px solid var(--blue-light);border-radius:var(--radius-sm);padding:14px;}
+  .broll-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .broll-num{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
+  .sora-pill{font-size:9px;font-weight:700;padding:2px 8px;border-radius:var(--radius-pill);background:linear-gradient(135deg,#9333ea,#7c3aed);color:#fff;text-transform:uppercase;letter-spacing:0.05em;}
+  .broll-prompt-text{font-size:12px;color:var(--text);line-height:1.7;}
+  .broll-note{font-size:11px;color:var(--purple);font-weight:600;margin-top:6px;}
+
+  /* Feedback */
+  .feedback-section{border-top:1.5px solid var(--blue-light);padding-top:12px;margin-top:4px;}
+  .feedback-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+  textarea{width:100%;font-family:var(--font);font-size:12px;padding:10px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--blue-light);background:var(--bg);color:var(--text);resize:vertical;min-height:64px;line-height:1.6;outline:none;transition:border-color 0.15s;}
+  textarea:focus{border-color:var(--blue);}
+  textarea::placeholder{color:var(--muted);}
+  .feedback-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center;}
+
+  /* Loading */
+  .generating{display:flex;align-items:center;gap:10px;padding:16px 0;color:var(--muted);font-size:12px;font-weight:500;}
+  .generating-detail{font-size:11px;color:var(--blue);font-weight:600;}
+  .dots{display:flex;gap:4px;}
+  .dots span{width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,#6675ED,#808EFF);animation:blink 1.2s ease-in-out infinite;}
+  .dots span:nth-child(2){animation-delay:0.2s;}
+  .dots span:nth-child(3){animation-delay:0.4s;}
+  @keyframes blink{0%,80%,100%{opacity:0.2}40%{opacity:1}}
+
+  .error-msg{font-size:12px;color:var(--red);padding:10px 0;font-weight:500;}
+  .empty-state{padding:14px 20px 18px;color:var(--muted);font-size:12px;}
+
+  /* Compliance checklist */
+  .compliance-bar{background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;font-size:11px;color:#15803d;font-weight:500;}
+
+  @media(max-width:600px){
+    .product-card-header{flex-direction:column;}
+    .product-actions{width:100%;flex-wrap:wrap;}
+    .stats-bar{grid-template-columns:repeat(2,1fr);}
+    .site-header{flex-direction:column;align-items:flex-start;}
   }
 </style>
 </head>
 <body>
 
+<!-- API Key Modal -->
 <div class="modal-overlay hidden" id="api-modal">
   <div class="modal-box">
     <div class="modal-logo">
@@ -255,24 +223,23 @@
       <div class="modal-brand">Dista</div>
     </div>
     <div class="modal-title">TikTok Prompt Repository</div>
-    <div class="modal-sub">Enter your Anthropic API key to get started. It's saved only in your browser — never sent anywhere except the Anthropic API directly.</div>
+    <div class="modal-sub">Enter your Anthropic API key to get started. Saved only in your browser — never shared anywhere except the Anthropic API.</div>
     <div class="modal-label">Anthropic API Key</div>
-    <input class="modal-input" type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off" />
-    <div class="modal-hint">Stored in browser localStorage only. Never shared or logged.</div>
-    <div class="modal-error" id="modal-error">Please enter a valid API key starting with sk-ant-</div>
+    <input class="modal-input" type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off"/>
+    <div class="modal-hint">Stored in your browser only. Never logged or shared.</div>
+    <div class="modal-error" id="modal-error">Please enter a valid key starting with sk-ant-</div>
     <button class="modal-btn" onclick="saveApiKey()">Get started →</button>
   </div>
 </div>
 
 <div class="accent-bar"></div>
-
 <div class="shell">
   <header class="site-header">
     <div class="header-left">
       <div class="header-mark">D</div>
       <div>
         <div class="header-title">TikTok Prompt Repository</div>
-        <div class="header-sub">Higgsfield + Grok · Deep-dive videos · 8 products</div>
+        <div class="header-sub">Grok + Higgsfield + SORA · Product-specific deep-dive videos · 8 products</div>
       </div>
     </div>
     <button class="header-key-btn" onclick="showApiModal()">Change API key</button>
@@ -290,159 +257,273 @@
 </div>
 
 <script>
-const STORAGE_KEY = 'dista_tiktok_repo_v2';
+const STORAGE_KEY = 'dista_tiktok_v3';
 const API_KEY_STORAGE = 'dista_anthropic_key';
 
 const PRODUCTS = [
-  { id:'p1', brand:'Pilgrim', name:'Advanced Hair Growth Serum (Dropper)', desc:'3% Redensyl, 4% Anagain, Korean Black Rice' },
-  { id:'p2', brand:'Pilgrim', name:'Hair Growth Serum Roll-On', desc:'3% Redensyl, 4% Anagain, 5% Capilia Stem Cell Complex' },
-  { id:'p3', brand:'Jolochip', name:'Last Chip Challenge', desc:'Carolina Reaper + Scorpion + Ghost Pepper · 2.2M Scoville · tortilla chip' },
-  { id:'p4', brand:'Jolochip', name:'Hottest Chocolate Challenge', desc:'Skull-shaped bar · Carolina Reaper + Scorpion Pepper · 2.2M Scoville' },
-  { id:'p5', brand:'ThriveCo', name:'Hair Growth Serum 2.0', desc:'REGENDIL™ (Redensyl + Procapil + Anagain + Capilia Longa) · 150% improvement in clinical study · Journal of Cosmetic Dermatology' },
-  { id:'p6', brand:'The Derma Co', name:'15% Vitamin C Intense Brightening Ampoule Kit', desc:'15% L-Ascorbic Acid · individually sealed glass ampoules · clinically tested' },
-  { id:'p7', brand:'The Derma Co', name:'3000 PPM Retinol Microneedle Serum Shot', desc:'Needle-like spicules from marine sponges · 5x deeper penetration · Squalane + Panthenol + Hyaluronic Acid' },
-  { id:'p8', brand:'Reginald', name:'Helios Men Sunscreen SPF 50 PA++++', desc:'USFDA registered · dermatologically tested · Niacinamide + Centella Asiatica + Hyaluronic Acid · zero white cast' }
+  {id:'p1',brand:'Pilgrim',name:'Advanced Hair Growth Serum (Dropper)',desc:'3% Redensyl, 4% Anagain, Korean Black Rice',distacart:'https://www.distacart.com/products/pilgrim-advanced-hair-growth-serum',amazon:'pilgrim advanced hair growth serum redensyl anagain site:amazon.in'},
+  {id:'p2',brand:'Pilgrim',name:'Hair Growth Serum Roll-On',desc:'3% Redensyl, 4% Anagain, 5% Capilia Stem Cell Complex',distacart:'https://www.distacart.com/products/pilgrim-hair-growth-serum-roll-on',amazon:'pilgrim hair growth serum roll-on capilia site:amazon.in'},
+  {id:'p3',brand:'Jolochip',name:'Last Chip Challenge',desc:'Carolina Reaper + Scorpion + Ghost Pepper · 2.2M Scoville · tortilla chip',distacart:'https://www.distacart.com/products/jolochip-last-chip-challenge',amazon:'jolochip last chip challenge carolina reaper site:amazon.in'},
+  {id:'p4',brand:'Jolochip',name:'Hottest Chocolate Challenge',desc:'Skull-shaped bar · Carolina Reaper + Scorpion Pepper · 2.2M Scoville',distacart:'https://www.distacart.com/products/jolochip-hottest-chocolate-challenge',amazon:'jolochip hottest chocolate skull carolina reaper site:amazon.in'},
+  {id:'p5',brand:'ThriveCo',name:'Hair Growth Serum 2.0',desc:'REGENDIL™ · Redensyl + Procapil + Anagain + Capilia Longa · 150% improvement in clinical study',distacart:'https://www.distacart.com/products/thriveco-hair-growth-serum',amazon:'thriveco hair growth serum REGENDIL site:amazon.in'},
+  {id:'p6',brand:'The Derma Co',name:'15% Vitamin C Intense Brightening Ampoule Kit',desc:'15% L-Ascorbic Acid · individually sealed glass ampoules · clinically tested',distacart:'https://www.distacart.com/products/the-derma-co-vitamin-c-ampoule',amazon:'derma co vitamin c ampoule kit 15% site:amazon.in'},
+  {id:'p7',brand:'The Derma Co',name:'3000 PPM Retinol Microneedle Serum Shot',desc:'Needle-like spicules · 5x deeper penetration · Squalane + Panthenol + Hyaluronic Acid',distacart:'https://www.distacart.com/products/the-derma-co-retinol-microneedle-serum',amazon:'derma co retinol microneedle serum shot 3000 ppm site:amazon.in'},
+  {id:'p8',brand:'Reginald',name:'Helios Men Sunscreen SPF 50 PA++++',desc:'USFDA registered · Niacinamide + Centella Asiatica + Hyaluronic Acid · zero white cast',distacart:'https://www.distacart.com/products/reginald-helios-sunscreen-spf-50',amazon:'reginald helios sunscreen spf 50 men site:amazon.in'}
 ];
 
-let state = { videos: {} };
-
-function loadState() {
-  try { const s = localStorage.getItem(STORAGE_KEY); if (s) state = JSON.parse(s); } catch(e) {}
-}
-function saveState() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
-}
-function getApiKey() { return localStorage.getItem(API_KEY_STORAGE) || ''; }
-
-function saveApiKey() {
-  const val = document.getElementById('api-key-input').value.trim();
-  const err = document.getElementById('modal-error');
-  if (!val || !val.startsWith('sk-ant-')) { err.style.display = 'block'; return; }
-  err.style.display = 'none';
-  localStorage.setItem(API_KEY_STORAGE, val);
+let state = {videos:{}};
+function loadState(){try{const s=localStorage.getItem(STORAGE_KEY);if(s)state=JSON.parse(s);}catch(e){}}
+function saveState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){}}
+function getApiKey(){return localStorage.getItem(API_KEY_STORAGE)||'';}
+function saveApiKey(){
+  const val=document.getElementById('api-key-input').value.trim();
+  const err=document.getElementById('modal-error');
+  if(!val||!val.startsWith('sk-ant-')){err.style.display='block';return;}
+  err.style.display='none';
+  localStorage.setItem(API_KEY_STORAGE,val);
   document.getElementById('api-modal').classList.add('hidden');
 }
-
-function showApiModal() {
-  document.getElementById('api-key-input').value = getApiKey();
+function showApiModal(){
+  document.getElementById('api-key-input').value=getApiKey();
   document.getElementById('api-modal').classList.remove('hidden');
 }
+document.getElementById('api-key-input').addEventListener('keydown',e=>{if(e.key==='Enter')saveApiKey();});
 
-document.getElementById('api-key-input').addEventListener('keydown', e => { if (e.key === 'Enter') saveApiKey(); });
-
-function updateStats() {
-  let app=0, rej=0, prog=0;
-  Object.values(state.videos).forEach(v => {
-    if (v.status==='approved') app++;
-    else if (v.status==='rejected') rej++;
-    else if (v.status==='in-progress') prog++;
+function updateStats(){
+  let app=0,rej=0,prog=0;
+  Object.values(state.videos).forEach(v=>{
+    if(v.status==='approved')app++;
+    else if(v.status==='rejected')rej++;
+    else if(v.status==='in-progress')prog++;
   });
-  document.getElementById('stat-gen').textContent = Object.keys(state.videos).length;
-  document.getElementById('stat-app').textContent = app;
-  document.getElementById('stat-rej').textContent = rej;
-  document.getElementById('stat-prog').textContent = prog;
+  document.getElementById('stat-gen').textContent=Object.keys(state.videos).length;
+  document.getElementById('stat-app').textContent=app;
+  document.getElementById('stat-rej').textContent=rej;
+  document.getElementById('stat-prog').textContent=prog;
 }
 
-function esc(str) {
-  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function esc(str){return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// Copy to clipboard
+function copyText(text, btn){
+  const textStr = String(text||'');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(textStr).then(()=>flashCopied(btn)).catch(()=>fallbackCopy(textStr,btn));
+  } else {
+    fallbackCopy(textStr,btn);
+  }
+}
+function fallbackCopy(text,btn){
+  const ta=document.createElement('textarea');
+  ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try{document.execCommand('copy');flashCopied(btn);}catch(e){}
+  document.body.removeChild(ta);
+}
+function flashCopied(btn){
+  const orig=btn.textContent; btn.textContent='Copied!'; btn.classList.add('copied');
+  setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},1800);
 }
 
-function buildPrompt(product, experimental, rejectionFeedback='') {
-  return `You are a TikTok Shop video prompt writer for Dista — a bold Indian e-commerce brand selling on TikTok US.
+function statusClass(s){return({draft:'badge-draft',approved:'badge-approved',rejected:'badge-rejected','in-progress':'badge-inprog'})[s]||'badge-draft';}
+function statusLabel(s){return({draft:'Draft',approved:'Approved',rejected:'Rejected','in-progress':'In progress'})[s]||s;}
 
-Product: ${product.name} by ${product.brand}
-Details: ${product.desc}
+async function callClaude(messages, maxTokens=2500){
+  const key=getApiKey();
+  if(!key)throw new Error('No API key. Click "Change API key".');
+  const res=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens,messages})
+  });
+  if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e?.error?.message||`API error ${res.status}`);}
+  const data=await res.json();
+  return data.content.map(c=>c.text||'').join('');
+}
 
-${rejectionFeedback ? `REVISION CONTEXT — Team rejected the previous version. Their feedback: "${rejectionFeedback}". Address this directly.` : ''}
+async function searchProductInfo(product){
+  // Use Claude to search and summarize product info from distacart + amazon.in
+  const searchPrompt = `Search for detailed product information about "${product.name}" by ${product.brand}.
 
-Generate a ${experimental ? 'CRAZY EXPERIMENTAL TikTok-style' : 'deep-dive product'} multi-scene video for Higgsfield AI + Grok.
+Look at:
+1. Distacart listing: ${product.distacart}
+2. Amazon.in search: ${product.amazon}
 
-RULES:
-- Every scene must feature or directly reference this specific product
-- Choose ideal scene count (3–5) — you decide based on the format
-- Each scene = one standalone Grok/Higgsfield generation prompt
-- For each scene choose: "UGC Factory" (AI character presenting product) or "Cinematic" (product hero, visual storytelling)
-- Prompts must be highly specific: setting, lighting, camera movement, character action, product placement, mood
-- No medical claims. No: cures, treats, prevents, diagnoses
-- Hair/beauty: "clinically studied ingredients", "supports hair density", "promotes stronger hair", "visible glow", "supports skin renewal"
-- Jolochip: at least one scene must note overlay: "Extremely spicy — consume responsibly"
-- ThriveCo 150%: note "In a clinical study — results may vary" for relevant scenes
-- No competitors. No beauty filters on skin/hair demos.
-${experimental
-  ? '- EXPERIMENTAL: Chaotic, viral, meme energy, hook within 2 seconds, fast cuts, trend-driven, unhinged in the best way.'
-  : '- STANDARD deep-dive: Educational, storytelling, or ingredient-focused. Each scene builds depth on this product.'}
+Extract and summarize:
+- Key ingredients with percentages/concentrations
+- Clinically proven claims with sources
+- How it works (mechanism)
+- Target audience (who it's for)
+- Key differentiators vs generic products
+- Real customer results/reviews if available
+- Any certifications or studies
 
-Pick a creative specific FORMAT NAME.
+Be specific and factual. This will be used to write TikTok video prompts.
+Keep response under 300 words. Focus on facts that make compelling video content.`;
 
-Respond ONLY with valid JSON, no markdown, no preamble:
+  try {
+    const result = await callClaude([{role:'user',content:searchPrompt}], 600);
+    return result;
+  } catch(e) {
+    return product.desc; // fallback to basic desc
+  }
+}
+
+function buildVideoPrompt(product, productInfo, videoType, rejectionFeedback=''){
+  const isExp = videoType === 'experimental';
+  const isImg = videoType === 'image';
+  const complianceRules = getComplianceRules(product);
+
+  return `You are an expert TikTok Shop video producer for Dista, an Indian e-commerce brand. You know Higgsfield AI, Grok video generation, and SORA deeply.
+
+PRODUCT: ${product.name} by ${product.brand}
+RESEARCHED PRODUCT INFO:
+${productInfo}
+
+VIDEO TYPE: ${isImg ? 'IMAGE-TO-VIDEO (Grok)' : isExp ? 'EXPERIMENTAL TikTok format' : 'PROMPT-TO-VIDEO (Grok)'}
+
+${rejectionFeedback ? `REVISION — Team rejected previous version. Feedback: "${rejectionFeedback}". Fix this specifically.` : ''}
+
+TIKTOK COMPLIANCE (MANDATORY):
+${complianceRules}
+- ❌ No medical claims, no "cures/treats/prevents"
+- ❌ No beauty filters on skin/hair demos
+- ❌ No competitor attacks
+- ❌ Still frames = violation, every scene needs movement
+- ✅ AI label toggle must be ON when posting
+- ✅ Run through Video Pre-Check before posting
+
+YOUR JOB: Generate a complete video package with:
+
+1. CHARACTER — Define the perfect character for this specific product:
+   - Age, look, energy, clothing, setting
+   - Why THIS character fits THIS product's audience
+   - Be specific enough that Grok generates a consistent image every time
+
+2. VISUAL CONSISTENCY — One look & feel block that ALL scenes must follow:
+   - Lighting style (e.g. "warm golden hour, soft key light from left")
+   - Color grade (e.g. "warm tones, slightly desaturated, clean whites")
+   - Camera style (e.g. "handheld, slightly shaky, TikTok-native")
+   - Environment/background
+   - Character wardrobe and hair (must stay identical across all scenes)
+
+${isImg ? `3. GROK CHARACTER IMAGE PROMPT — One detailed prompt to generate the character image in Grok. This image will be used as the reference for ALL video scenes. Must include: exact appearance, outfit, expression, background, lighting, photography style.` : ''}
+
+4. SCENES (3-5, you decide based on format):
+   For EACH scene provide:
+   a) SCENE TYPE: "Grok/Higgsfield" (human character) or "SORA" (product animation only)
+   b) VISUAL PROMPT: Detailed Higgsfield/Grok action prompt — what the character does, camera movement, product placement. Must reference the visual consistency block. Product MUST be visible.
+   c) DIALOGUE (max 245 chars for Grok lip sync): What the character says. Must be TikTok-native, punchy, product-specific. NOT generic.
+   d) DELIVERY: "lip-sync" (Grok) or "tts-overlay" (text-to-speech over video)
+   e) SCENE NOTE: Any overlay text, disclaimer, or special instruction
+
+   SCENE 1 MUST have a scroll-stopping HOOK in both the visual and dialogue. Hook = within 2 seconds, viewer must feel compelled to watch.
+
+5. B-ROLL (2-3 shots):
+   Product animation B-roll using SORA only:
+   - Upload product image to SORA
+   - Describe exactly what animation/movement SORA should generate
+   - Be specific: product rotation, ingredient visualization, texture closeup, etc.
+
+${isExp ? `EXPERIMENTAL FORMAT RULES: Chaotic energy. Viral. Meme-worthy. Pattern interrupt. Hook within 1 second. Fast cuts implied. Unhinged but still compliant. Think: what would make someone screenshot and send to a friend?` : ''}
+
+Respond ONLY in this exact JSON — no markdown, no preamble:
 {
-  "format": "Format name",
+  "format": "Creative format name",
+  "character": "Full character description",
+  "visualConsistency": "Complete look & feel block that all scenes reference",
+  ${isImg ? '"characterImagePrompt": "Full Grok image generation prompt for the character",' : ''}
   "scenes": [
-    { "mode": "UGC Factory or Cinematic", "prompt": "Full generation prompt" }
-  ]
+    {
+      "sceneType": "Grok/Higgsfield or SORA",
+      "isHook": true/false,
+      "visualPrompt": "Full action/visual prompt",
+      "dialogue": "What character says (max 245 chars)",
+      "delivery": "lip-sync or tts-overlay",
+      "sceneNote": "Any overlay text or disclaimer"
+    }
+  ],
+  "broll": [
+    {
+      "tool": "SORA",
+      "instruction": "Upload product image to SORA. Then: [exact animation description]",
+      "note": "Where in video to use this b-roll shot"
+    }
+  ],
+  "complianceCheck": ["list of compliance items verified for this video"]
 }`;
 }
 
-async function callClaude(prompt) {
-  const key = getApiKey();
-  if (!key) throw new Error('No API key set. Click "Change API key" to add yours.');
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': key,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1500,
-      messages: [{ role: 'user', content: prompt }]
-    })
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err?.error?.message || `API error ${res.status}`);
-  }
-  const data = await res.json();
-  const text = data.content.map(c => c.text||'').join('');
-  return JSON.parse(text.replace(/```json|```/g,'').trim());
+function getComplianceRules(product){
+  const id = product.id;
+  if(['p1','p2','p5'].includes(id)) return `- Hair products: say "supports hair density", "clinically studied ingredients", "promotes stronger hair"\n- ❌ Never: "cures hair loss", "treats alopecia", "stops hair fall permanently"\n- Before/after needs "Results may vary" on screen`;
+  if(['p3','p4'].includes(id)) return `- Jolochip: challenge/reaction format ✅\n- ❌ No health claims ("boosts metabolism")\n- ✅ Must show "Extremely spicy — consume responsibly"\n- ❌ No minors consuming product`;
+  if(id==='p5') return `- ThriveCo: can say "150% improvement" but MUST add "In a clinical study — results may vary"`;
+  if(['p6','p7'].includes(id)) return `- Vitamin C/Retinol: say "brightens skin tone", "supports skin renewal", "visible glow"\n- ❌ Never: "removes wrinkles", "treats acne"\n- Lifestyle framing, not medical`;
+  if(id==='p8') return `- Sunscreen: reference SPF 50, PA++++, zero white cast, non-greasy\n- ❌ Never claim "prevents skin cancer" or disease\n- ✅ Natural application, no filters`;
+  return '';
 }
 
-function copyText(text, btn) {
-  navigator.clipboard.writeText(text).then(() => {
-    const orig = btn.textContent;
-    btn.textContent = 'Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
-  });
-}
-
-function statusClass(s) {
-  return ({draft:'badge-draft',approved:'badge-approved',rejected:'badge-rejected','in-progress':'badge-inprog'})[s]||'badge-draft';
-}
-function statusLabel(s) {
-  return ({draft:'Draft',approved:'Approved',rejected:'Rejected','in-progress':'In progress'})[s]||s;
-}
-
-function renderScenes(scenes) {
-  return scenes.map((sc,i) => `
+function renderScenes(scenes, vidKey){
+  return (scenes||[]).map((sc,i)=>`
     <div class="scene-block">
       <div class="scene-header">
         <span class="scene-num">Scene ${i+1}</span>
-        <span class="scene-mode-pill">${esc(sc.mode)}</span>
+        ${sc.isHook?'<span class="scene-hook-pill">Hook</span>':''}
+        <span class="scene-type-pill">${esc(sc.sceneType||'Grok')}</span>
       </div>
-      <div class="scene-prompt">${esc(sc.prompt)}</div>
-      <button class="btn-copy" onclick="copyText(${JSON.stringify(sc.prompt)},this)">Copy prompt</button>
+      <div class="scene-section-label">Visual prompt</div>
+      <div class="scene-prompt-text">${esc(sc.visualPrompt)}</div>
+      <button class="btn-copy" onclick="copyText(${JSON.stringify(sc.visualPrompt)},this)">Copy visual prompt</button>
+      <div class="dialogue-block">
+        <div class="dialogue-speaker">Dialogue — ${sc.delivery==='lip-sync'?'Grok lip sync':'TTS overlay'}</div>
+        <div class="dialogue-text">"${esc(sc.dialogue)}"</div>
+        <div class="dialogue-charcount">${(sc.dialogue||'').length}/245 chars</div>
+        <button class="btn-copy" onclick="copyText(${JSON.stringify(sc.dialogue)},this)" style="margin-top:6px;">Copy dialogue</button>
+      </div>
+      <div class="delivery-toggle">
+        <span class="delivery-label">Delivery:</span>
+        <button class="toggle-btn${sc.delivery==='lip-sync'?' active':''}" onclick="toggleDelivery('${vidKey}',${i},'lip-sync',this)">Lip sync</button>
+        <button class="toggle-btn${sc.delivery==='tts-overlay'?' active':''}" onclick="toggleDelivery('${vidKey}',${i},'tts-overlay',this)">TTS overlay</button>
+      </div>
+      ${sc.sceneNote?`<div class="scene-section-label">Overlay / note</div><div class="scene-prompt-text" style="color:var(--orange);font-weight:600;">${esc(sc.sceneNote)}</div>`:''}
     </div>`).join('');
 }
 
-function renderVideoBlock(vid, vidKey) {
-  return `<div class="video-block${vid.experimental?' experimental':''}" id="vb-${vidKey}">
+function toggleDelivery(vidKey,sceneIdx,delivery,btn){
+  if(!state.videos[vidKey])return;
+  state.videos[vidKey].scenes[sceneIdx].delivery=delivery;
+  saveState();
+  const block=btn.closest('.delivery-toggle');
+  block.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const dialogueSpeaker=btn.closest('.scene-block').querySelector('.dialogue-speaker');
+  if(dialogueSpeaker) dialogueSpeaker.textContent=`Dialogue — ${delivery==='lip-sync'?'Grok lip sync':'TTS overlay'}`;
+}
+
+function renderBroll(broll){
+  return (broll||[]).map((br,i)=>`
+    <div class="broll-block">
+      <div class="broll-header">
+        <span class="broll-num">B-roll ${i+1}</span>
+        <span class="sora-pill">SORA</span>
+      </div>
+      <div class="scene-prompt-text">${esc(br.instruction)}</div>
+      ${br.note?`<div class="broll-note">${esc(br.note)}</div>`:''}
+      <button class="btn-copy" onclick="copyText(${JSON.stringify(br.instruction)},this)">Copy SORA prompt</button>
+    </div>`).join('');
+}
+
+function renderVideoBlock(vid, vidKey){
+  const typeBadge = vid.videoType==='image'?'<span class="badge badge-img">Image → Video</span>':vid.videoType==='experimental'?'<span class="badge badge-exp">Experimental</span>':'<span class="badge badge-prompt">Prompt → Video</span>';
+  const typeClass = vid.videoType==='image'?'type-img':vid.videoType==='experimental'?'type-exp':'type-prompt';
+  const hasImgPrompt = vid.videoType==='image' && vid.characterImagePrompt;
+
+  return `<div class="video-block ${typeClass}" id="vb-${vidKey}">
     <div class="video-top">
       <div class="video-format">${esc(vid.format)}</div>
       <div class="badges">
-        ${vid.experimental?'<span class="badge badge-exp">Experimental</span>':''}
+        ${typeBadge}
         <span class="badge ${statusClass(vid.status)}" id="sbadge-${vidKey}">${statusLabel(vid.status)}</span>
       </div>
     </div>
@@ -454,10 +535,33 @@ function renderVideoBlock(vid, vidKey) {
         <option value="rejected"${vid.status==='rejected'?' selected':''}>Rejected</option>
       </select>
     </div>
-    <div class="scenes-list" id="scenes-${vidKey}">${renderScenes(vid.scenes)}</div>
+    <div class="product-info-banner">
+      <div class="product-info-label">Product research</div>
+      <div class="product-info-text">${esc(vid.productInfo||'')}</div>
+    </div>
+    <div class="visual-block">
+      <div class="visual-label">Visual consistency — apply to ALL scenes</div>
+      <div class="visual-text">${esc(vid.visualConsistency||'')} <br><br><strong style="color:var(--blue-light);">Character:</strong> ${esc(vid.character||'')}</div>
+    </div>
+    ${hasImgPrompt?`<div class="char-block">
+      <div class="char-label">Grok character image prompt</div>
+      <div class="char-prompt">${esc(vid.characterImagePrompt)}</div>
+      <button class="btn-copy" onclick="copyText(${JSON.stringify(vid.characterImagePrompt)},this)">Copy image prompt</button>
+    </div>`:''}
+    ${vid.complianceCheck&&vid.complianceCheck.length?`<div class="compliance-bar">✅ Compliance verified: ${vid.complianceCheck.join(' · ')}</div>`:''}
+    <div class="tab-bar" id="tabs-${vidKey}">
+      <button class="tab-btn active" onclick="switchTab('${vidKey}','scenes',this)">Scenes (${(vid.scenes||[]).length})</button>
+      <button class="tab-btn" onclick="switchTab('${vidKey}','broll',this)">B-roll (${(vid.broll||[]).length})</button>
+    </div>
+    <div class="tab-panel active" id="tab-scenes-${vidKey}">
+      <div class="scenes-list">${renderScenes(vid.scenes,vidKey)}</div>
+    </div>
+    <div class="tab-panel" id="tab-broll-${vidKey}">
+      <div class="broll-list">${renderBroll(vid.broll)}</div>
+    </div>
     <div class="feedback-section">
       <div class="feedback-label">Team feedback</div>
-      <textarea id="fb-${vidKey}" placeholder="What needs to change? Be specific — Claude uses this to regenerate.">${esc(vid.feedback||'')}</textarea>
+      <textarea id="fb-${vidKey}" placeholder="What needs to change? Be specific — Claude will read this and regenerate.">${esc(vid.feedback||'')}</textarea>
       <div class="feedback-actions">
         <button class="btn-sm btn-approve" onclick="approveVideo('${vidKey}')">Approve</button>
         <button class="btn-sm btn-reject" onclick="rejectVideo('${vidKey}')">Reject</button>
@@ -467,86 +571,118 @@ function renderVideoBlock(vid, vidKey) {
   </div>`;
 }
 
-function setStatus(vidKey, status) {
-  if (!state.videos[vidKey]) return;
-  state.videos[vidKey].status = status;
-  const badge = document.getElementById(`sbadge-${vidKey}`);
-  if (badge) { badge.className=`badge ${statusClass(status)}`; badge.textContent=statusLabel(status); }
-  saveState(); updateStats();
+function switchTab(vidKey, tab, btn){
+  document.getElementById(`tab-scenes-${vidKey}`).classList.remove('active');
+  document.getElementById(`tab-broll-${vidKey}`).classList.remove('active');
+  document.getElementById(`tab-${tab}-${vidKey}`).classList.add('active');
+  document.querySelectorAll(`#tabs-${vidKey} .tab-btn`).forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
-function approveVideo(vidKey) {
-  const sel = document.querySelector(`#vb-${vidKey} select`);
-  if (sel) sel.value='approved';
+function setStatus(vidKey,status){
+  if(!state.videos[vidKey])return;
+  state.videos[vidKey].status=status;
+  const badge=document.getElementById(`sbadge-${vidKey}`);
+  if(badge){badge.className=`badge ${statusClass(status)}`;badge.textContent=statusLabel(status);}
+  saveState();updateStats();
+}
+function approveVideo(vidKey){
+  const sel=document.querySelector(`#vb-${vidKey} select`);if(sel)sel.value='approved';
   setStatus(vidKey,'approved');
 }
-
-function rejectVideo(vidKey) {
-  const fb = document.getElementById(`fb-${vidKey}`)?.value||'';
-  if (state.videos[vidKey]) state.videos[vidKey].feedback=fb;
-  const sel = document.querySelector(`#vb-${vidKey} select`);
-  if (sel) sel.value='rejected';
-  setStatus(vidKey,'rejected');
-  saveState();
+function rejectVideo(vidKey){
+  const fb=document.getElementById(`fb-${vidKey}`)?.value||'';
+  if(state.videos[vidKey])state.videos[vidKey].feedback=fb;
+  const sel=document.querySelector(`#vb-${vidKey} select`);if(sel)sel.value='rejected';
+  setStatus(vidKey,'rejected');saveState();
 }
 
-async function regenVideo(vidKey) {
-  const fb = document.getElementById(`fb-${vidKey}`)?.value?.trim();
-  if (!fb) { alert('Please write feedback first — Claude needs to know what to fix.'); return; }
-  const vid = state.videos[vidKey];
-  const product = PRODUCTS.find(p=>p.id===vid.productId);
-  const scenesEl = document.getElementById(`scenes-${vidKey}`);
-  const btn = document.querySelector(`#vb-${vidKey} .btn-regen`);
-  if (btn) btn.disabled=true;
-  scenesEl.innerHTML=`<div class="generating"><div class="dots"><span></span><span></span><span></span></div> Regenerating from feedback...</div>`;
-  try {
-    const parsed = await callClaude(buildPrompt(product, vid.experimental, fb));
-    vid.scenes=parsed.scenes; vid.format=parsed.format; vid.status='draft'; vid.feedback=fb;
+async function regenVideo(vidKey){
+  const fb=document.getElementById(`fb-${vidKey}`)?.value?.trim();
+  if(!fb){alert('Please write feedback first — Claude needs to know what to fix.');return;}
+  const vid=state.videos[vidKey];
+  const product=PRODUCTS.find(p=>p.id===vid.productId);
+  const card=document.getElementById(`vb-${vidKey}`);
+  const btn=card.querySelector('.btn-regen');
+  if(btn)btn.disabled=true;
+
+  // Show loading in scenes tab
+  const scenesEl=document.getElementById(`tab-scenes-${vidKey}`);
+  scenesEl.innerHTML=`<div class="generating"><div class="dots"><span></span><span></span><span></span></div><div><div>Regenerating from feedback...</div><div class="generating-detail">Re-researching product + rebuilding prompts</div></div></div>`;
+
+  try{
+    const productInfo = vid.productInfo || product.desc;
+    const raw=await callClaude([{role:'user',content:buildVideoPrompt(product,productInfo,vid.videoType,fb)}],2500);
+    const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    vid.scenes=parsed.scenes; vid.format=parsed.format; vid.character=parsed.character;
+    vid.visualConsistency=parsed.visualConsistency; vid.broll=parsed.broll;
+    vid.complianceCheck=parsed.complianceCheck; vid.status='draft'; vid.feedback=fb;
+    if(parsed.characterImagePrompt)vid.characterImagePrompt=parsed.characterImagePrompt;
     state.videos[vidKey]=vid; saveState();
-    scenesEl.innerHTML=renderScenes(vid.scenes);
-    const fmtEl=document.querySelector(`#vb-${vidKey} .video-format`);
-    if (fmtEl) fmtEl.textContent=vid.format;
-    const sel=document.querySelector(`#vb-${vidKey} select`);
-    if (sel) sel.value='draft';
-    const badge=document.getElementById(`sbadge-${vidKey}`);
-    if (badge) { badge.className='badge badge-draft'; badge.textContent='Draft'; }
+
+    // Re-render the whole block
+    const oldBlock=document.getElementById(`vb-${vidKey}`);
+    const newHtml=renderVideoBlock(vid,vidKey);
+    oldBlock.outerHTML=newHtml;
     updateStats();
-  } catch(e) {
+  }catch(e){
     scenesEl.innerHTML=`<div class="error-msg">${esc(e.message)}</div>`;
   }
-  if (btn) btn.disabled=false;
+  const newBtn=document.querySelector(`#vb-${vidKey} .btn-regen`);
+  if(newBtn)newBtn.disabled=false;
 }
 
-async function generateVideo(productId, experimental) {
-  const product = PRODUCTS.find(p=>p.id===productId);
-  const card = document.getElementById(`card-${productId}`);
-  const videosList = document.getElementById(`vlist-${productId}`);
-  const btn = card.querySelector(experimental?'.btn-exp':'.btn-gen');
-  const origLabel = btn.textContent;
+async function generateVideo(productId, videoType){
+  const product=PRODUCTS.find(p=>p.id===productId);
+  const card=document.getElementById(`card-${productId}`);
+  const videosList=document.getElementById(`vlist-${productId}`);
+
+  const btnClass=videoType==='image'?'.btn-img':videoType==='experimental'?'.btn-exp':'.btn-prompt';
+  const btn=card.querySelector(btnClass);
+  const origLabel=btn.textContent;
   btn.disabled=true; btn.textContent='Generating...';
-  const placeholder = document.createElement('div');
+
+  const placeholder=document.createElement('div');
   placeholder.className='video-block';
-  placeholder.innerHTML=`<div class="generating"><div class="dots"><span></span><span></span><span></span></div> Crafting ${experimental?'experimental':'deep-dive'} prompts...</div>`;
+  placeholder.innerHTML=`<div class="generating"><div class="dots"><span></span><span></span><span></span></div><div><div>Building ${videoType==='image'?'image → video':videoType==='experimental'?'experimental':' prompt → video'} for ${esc(product.name)}...</div><div class="generating-detail">Step 1 of 2: Researching product on Distacart + Amazon.in</div></div></div>`;
   videosList.appendChild(placeholder);
   card.classList.add('has-videos');
   const emptyState=videosList.querySelector('.empty-state');
-  if (emptyState) emptyState.remove();
-  try {
-    const parsed = await callClaude(buildPrompt(product, experimental));
+  if(emptyState)emptyState.remove();
+
+  try{
+    // Step 1: Research product
+    placeholder.querySelector('.generating-detail').textContent='Step 1 of 2: Researching product on Distacart + Amazon.in...';
+    const productInfo=await searchProductInfo(product);
+
+    // Step 2: Generate video prompts
+    placeholder.querySelector('.generating-detail').textContent='Step 2 of 2: Building scenes, dialogue, and B-roll prompts...';
+    const raw=await callClaude([{role:'user',content:buildVideoPrompt(product,productInfo,videoType)}],2500);
+    const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+
     const vidKey=`${productId}-${Date.now()}`;
-    const vid={productId, format:parsed.format, scenes:parsed.scenes, experimental, status:'draft', feedback:''};
+    const vid={
+      productId, videoType, productInfo,
+      format:parsed.format, character:parsed.character,
+      visualConsistency:parsed.visualConsistency,
+      characterImagePrompt:parsed.characterImagePrompt||null,
+      scenes:parsed.scenes, broll:parsed.broll,
+      complianceCheck:parsed.complianceCheck||[],
+      status:'draft', feedback:''
+    };
     state.videos[vidKey]=vid; saveState();
-    placeholder.outerHTML=renderVideoBlock(vid, vidKey);
+    placeholder.outerHTML=renderVideoBlock(vid,vidKey);
     updateStats();
-  } catch(e) {
-    placeholder.innerHTML=`<div class="error-msg">${esc(e.message)}</div>`;
+  }catch(e){
+    placeholder.innerHTML=`<div class="error-msg" style="padding:16px 0;">${esc(e.message)}</div>`;
   }
+
   btn.disabled=false; btn.textContent=origLabel;
 }
 
-function renderProducts() {
+function renderProducts(){
   const grid=document.getElementById('product-grid');
-  grid.innerHTML=PRODUCTS.map(p => {
+  grid.innerHTML=PRODUCTS.map(p=>{
     const existing=Object.entries(state.videos)
       .filter(([,v])=>v.productId===p.id)
       .map(([k,v])=>renderVideoBlock(v,k)).join('');
@@ -558,19 +694,20 @@ function renderProducts() {
           <div class="product-desc">${esc(p.desc)}</div>
         </div>
         <div class="product-actions">
-          <button class="btn-gen" onclick="generateVideo('${p.id}',false)">Generate video</button>
-          <button class="btn-exp" onclick="generateVideo('${p.id}',true)">Generate experimental</button>
+          <button class="btn-img" onclick="generateVideo('${p.id}','image')">Image → Video</button>
+          <button class="btn-prompt" onclick="generateVideo('${p.id}','prompt')">Prompt → Video</button>
+          <button class="btn-exp" onclick="generateVideo('${p.id}','experimental')">Experimental</button>
         </div>
       </div>
       <div class="videos-list" id="vlist-${p.id}">
-        ${existing||'<div class="empty-state">No videos yet — click generate to start.</div>'}
+        ${existing||'<div class="empty-state">No videos yet — choose a format above to generate.</div>'}
       </div>
     </div>`;
   }).join('');
 }
 
 loadState();
-if (!getApiKey()) showApiModal();
+if(!getApiKey())showApiModal();
 renderProducts();
 updateStats();
 </script>
