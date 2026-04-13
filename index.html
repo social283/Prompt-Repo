@@ -4,312 +4,278 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dista — TikTok Prompt Repository</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d0d0d;
-    --surface: #161616;
-    --surface2: #1e1e1e;
-    --border: rgba(255,255,255,0.08);
-    --border-hover: rgba(255,255,255,0.16);
-    --text: #f0ede8;
-    --muted: #888;
-    --accent: #c8f56a;
-    --accent-dim: rgba(200,245,106,0.12);
-    --accent-exp: #f5a623;
-    --accent-exp-dim: rgba(245,166,35,0.12);
-    --green: #4ade80;
-    --green-dim: rgba(74,222,128,0.1);
-    --red: #f87171;
-    --red-dim: rgba(248,113,113,0.1);
-    --amber: #fbbf24;
-    --amber-dim: rgba(251,191,36,0.1);
-    --radius: 10px;
-    --radius-sm: 6px;
-    --font-display: 'Syne', sans-serif;
-    --font-mono: 'DM Mono', monospace;
+    --blue: #6675ED;
+    --blue-mid: #808EFF;
+    --blue-light: #BFC6FF;
+    --bg: #F6F7FF;
+    --navy: #1E2260;
+    --text: #2D3380;
+    --muted: #8890CC;
+    --white: #FFFFFF;
+    --green: #22c55e;
+    --green-dim: rgba(34,197,94,0.1);
+    --red: #ef4444;
+    --red-dim: rgba(239,68,68,0.1);
+    --amber: #f59e0b;
+    --amber-dim: rgba(245,158,11,0.1);
+    --orange: #f97316;
+    --orange-dim: rgba(249,115,22,0.1);
+    --radius: 14px;
+    --radius-sm: 8px;
+    --radius-pill: 100px;
+    --shadow: 0 8px 48px rgba(102,117,237,0.12);
+    --font: 'Poppins', Arial, sans-serif;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-mono);
-    font-size: 13px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 13px; line-height: 1.6; min-height: 100vh; }
 
-  /* Layout */
-  .shell { max-width: 960px; margin: 0 auto; padding: 0 24px 80px; }
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(30,34,96,0.55);
+    display: flex; align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal-overlay.hidden { display: none; }
+  .modal-box {
+    background: var(--white); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 36px 32px; width: 100%; max-width: 440px;
+  }
+  .modal-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+  .modal-mark {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: linear-gradient(135deg, #6675ED 0%, #808EFF 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 800; color: #fff;
+  }
+  .modal-brand { font-size: 16px; font-weight: 700; color: var(--navy); }
+  .modal-title { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+  .modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+  .modal-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .modal-input {
+    width: 100%; padding: 12px 14px;
+    border: 1.5px solid var(--blue-light); border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 13px; color: var(--navy);
+    background: var(--bg); outline: none; transition: border-color 0.15s; margin-bottom: 8px;
+  }
+  .modal-input:focus { border-color: var(--blue); }
+  .modal-hint { font-size: 11px; color: var(--muted); margin-bottom: 20px; }
+  .modal-btn {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, #6675ED 0%, #808EFF 100%);
+    border: none; border-radius: var(--radius-pill);
+    font-family: var(--font); font-size: 14px; font-weight: 700;
+    color: #fff; cursor: pointer; transition: opacity 0.15s;
+  }
+  .modal-btn:hover { opacity: 0.9; }
+  .modal-error { font-size: 12px; color: var(--red); margin-bottom: 12px; display: none; font-weight: 500; }
+
+  /* Accent bar */
+  .accent-bar { height: 5px; background: linear-gradient(90deg, #6675ED 0%, #808EFF 50%, #BFC6FF 100%); }
+
+  /* Shell */
+  .shell { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
 
   /* Header */
   .site-header {
-    padding: 32px 0 24px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 32px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 16px;
+    padding: 28px 0 20px; border-bottom: 1.5px solid var(--blue-light);
+    margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
   }
-  .logo-row { display: flex; align-items: center; gap: 12px; }
-  .logo-mark {
-    width: 36px; height: 36px;
-    background: var(--accent);
-    border-radius: 8px;
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .header-mark {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: linear-gradient(135deg, #6675ED 0%, #808EFF 100%);
     display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-display);
-    font-size: 16px; font-weight: 700;
-    color: #0d0d0d;
-    flex-shrink: 0;
+    font-size: 17px; font-weight: 800; color: #fff; flex-shrink: 0;
   }
-  .site-title { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--text); }
-  .site-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .header-title { font-size: 17px; font-weight: 700; color: var(--navy); }
+  .header-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .header-key-btn {
+    font-family: var(--font); font-size: 11px; font-weight: 600;
+    padding: 7px 14px; border-radius: var(--radius-pill);
+    border: 1.5px solid var(--blue-light); background: transparent;
+    color: var(--blue); cursor: pointer; transition: all 0.15s;
+  }
+  .header-key-btn:hover { background: var(--white); border-color: var(--blue); }
 
-  /* Stats bar */
-  .stats-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 32px;
-  }
+  /* Stats */
+  .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px; }
   .stat-tile {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
+    background: var(--white); border-radius: var(--radius-sm);
+    border: 1.5px solid var(--blue-light); padding: 14px 16px;
   }
-  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-  .stat-val { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; }
+  .stat-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .stat-val { font-size: 26px; font-weight: 800; color: var(--navy); line-height: 1; }
   .stat-tile.s-approved .stat-val { color: var(--green); }
   .stat-tile.s-rejected .stat-val { color: var(--red); }
   .stat-tile.s-inprog .stat-val { color: var(--amber); }
 
   /* Section label */
   .section-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 10px; font-weight: 600; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
   }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--blue-light); }
 
-  /* Product cards */
-  .product-grid { display: flex; flex-direction: column; gap: 16px; }
+  /* Product grid */
+  .product-grid { display: flex; flex-direction: column; gap: 14px; }
+
   .product-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    transition: border-color 0.2s;
+    background: var(--white); border-radius: var(--radius);
+    border: 1.5px solid var(--blue-light);
+    box-shadow: 0 2px 12px rgba(102,117,237,0.06);
+    overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .product-card.has-videos { border-color: rgba(200,245,106,0.2); }
+  .product-card.has-videos { border-color: var(--blue); box-shadow: 0 4px 20px rgba(102,117,237,0.14); }
+
   .product-card-header {
-    padding: 16px 20px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-    border-bottom: 1px solid var(--border);
+    padding: 16px 20px; display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 16px; background: var(--white);
   }
-  .product-brand {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    margin-bottom: 4px;
-    font-weight: 500;
-  }
-  .product-name { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .product-brand { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+  .product-name { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 3px; line-height: 1.4; }
   .product-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
   .product-actions { display: flex; gap: 8px; flex-shrink: 0; padding-top: 2px; }
 
-  /* Buttons */
-  button {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    padding: 8px 14px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-    line-height: 1;
-  }
-  button:hover { border-color: var(--border-hover); background: var(--surface2); }
+  button { font-family: var(--font); cursor: pointer; transition: all 0.15s; }
   button:active { transform: scale(0.97); }
-  button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 
-  .btn-gen { border-color: rgba(200,245,106,0.3); color: var(--accent); }
-  .btn-gen:hover { background: var(--accent-dim); border-color: rgba(200,245,106,0.6); }
-  .btn-exp { border-color: rgba(245,166,35,0.3); color: var(--accent-exp); }
-  .btn-exp:hover { background: var(--accent-exp-dim); border-color: rgba(245,166,35,0.6); }
-  .btn-approve { border-color: rgba(74,222,128,0.3); color: var(--green); font-size: 11px; padding: 5px 10px; }
-  .btn-approve:hover { background: var(--green-dim); }
-  .btn-reject { border-color: rgba(248,113,113,0.3); color: var(--red); font-size: 11px; padding: 5px 10px; }
-  .btn-reject:hover { background: var(--red-dim); }
-  .btn-regen { border-color: rgba(251,191,36,0.3); color: var(--amber); font-size: 11px; padding: 5px 10px; }
-  .btn-regen:hover { background: var(--amber-dim); }
-  .btn-copy { font-size: 10px; padding: 4px 8px; color: var(--muted); margin-top: 8px; }
-  .btn-copy:hover { color: var(--text); }
-  .btn-copy.copied { color: var(--green); border-color: rgba(74,222,128,0.3); }
-
-  /* Videos list */
-  .videos-list { padding: 0; }
-  .video-block {
-    border-top: 1px solid var(--border);
-    padding: 16px 20px;
-    animation: fadeIn 0.3s ease;
+  .btn-gen {
+    font-size: 12px; font-weight: 600; padding: 9px 16px; border-radius: var(--radius-pill);
+    background: linear-gradient(135deg, #6675ED 0%, #808EFF 100%);
+    border: none; color: #fff; box-shadow: 0 4px 16px rgba(102,117,237,0.3);
   }
-  .video-block.experimental { border-left: 2px solid var(--accent-exp); }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .btn-gen:hover { opacity: 0.9; box-shadow: 0 6px 20px rgba(102,117,237,0.45); }
 
-  .video-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
-  .video-format { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--text); }
+  .btn-exp {
+    font-size: 12px; font-weight: 600; padding: 9px 16px; border-radius: var(--radius-pill);
+    background: transparent; border: 1.5px solid var(--orange); color: var(--orange);
+  }
+  .btn-exp:hover { background: var(--orange-dim); }
+
+  .btn-sm { font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: var(--radius-pill); border: 1.5px solid; }
+  .btn-approve { border-color: var(--green); color: var(--green); background: transparent; }
+  .btn-approve:hover { background: var(--green-dim); }
+  .btn-reject { border-color: var(--red); color: var(--red); background: transparent; }
+  .btn-reject:hover { background: var(--red-dim); }
+  .btn-regen { border-color: var(--amber); color: var(--amber); background: transparent; }
+  .btn-regen:hover { background: var(--amber-dim); }
+  .btn-copy {
+    font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-pill);
+    border: 1px solid var(--blue-light); color: var(--muted); background: transparent; margin-top: 8px;
+  }
+  .btn-copy:hover { border-color: var(--blue); color: var(--blue); }
+  .btn-copy.copied { border-color: var(--green); color: var(--green); }
+
+  .videos-list { display: flex; flex-direction: column; }
+  .video-block { border-top: 1.5px solid var(--bg); padding: 16px 20px; animation: fadeUp 0.3s ease; }
+  .video-block.experimental { border-left: 3px solid var(--orange); }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  .video-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+  .video-format { font-size: 14px; font-weight: 700; color: var(--navy); line-height: 1.3; }
   .badges { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 
-  /* Badges */
-  .badge {
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    border: 1px solid transparent;
-  }
-  .badge-exp { background: var(--accent-exp-dim); color: var(--accent-exp); border-color: rgba(245,166,35,0.25); }
-  .badge-draft { background: var(--surface2); color: var(--muted); border-color: var(--border); }
-  .badge-approved { background: var(--green-dim); color: var(--green); border-color: rgba(74,222,128,0.25); }
-  .badge-rejected { background: var(--red-dim); color: var(--red); border-color: rgba(248,113,113,0.25); }
-  .badge-inprog { background: var(--amber-dim); color: var(--amber); border-color: rgba(251,191,36,0.25); }
+  .badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: var(--radius-pill); letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; }
+  .badge-exp { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(249,115,22,0.25); }
+  .badge-draft { background: var(--bg); color: var(--muted); border: 1px solid var(--blue-light); }
+  .badge-approved { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,197,94,0.25); }
+  .badge-rejected { background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,68,68,0.25); }
+  .badge-inprog { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,158,11,0.25); }
 
-  /* Status select */
   .status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
   select {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    padding: 5px 10px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    color: var(--text);
-    cursor: pointer;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
+    font-family: var(--font); font-size: 11px; font-weight: 600;
+    padding: 5px 10px; border-radius: var(--radius-pill);
+    border: 1.5px solid var(--blue-light); background: var(--bg);
+    color: var(--text); cursor: pointer; outline: none; appearance: none; -webkit-appearance: none;
   }
-  select:hover { border-color: var(--border-hover); }
+  select:hover { border-color: var(--blue); }
 
-  /* Scenes */
   .scenes-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
   .scene-block {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
+    background: var(--bg); border: 1.5px solid var(--blue-light);
+    border-radius: var(--radius-sm); padding: 12px 14px;
   }
   .scene-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-  .scene-num {
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
+  .scene-num { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
   .scene-mode-pill {
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 20px;
-    background: var(--surface2);
-    color: var(--accent);
-    border: 1px solid rgba(200,245,106,0.2);
+    font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-pill);
+    background: linear-gradient(135deg, #6675ED, #808EFF); color: #fff;
+    text-transform: uppercase; letter-spacing: 0.05em;
   }
-  .scene-prompt { font-size: 12px; color: var(--text); line-height: 1.65; }
+  .scene-prompt { font-size: 12px; color: var(--text); line-height: 1.7; }
 
-  /* Feedback */
-  .feedback-section { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 4px; }
-  .feedback-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .feedback-section { border-top: 1.5px solid var(--blue-light); padding-top: 12px; margin-top: 4px; }
+  .feedback-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
   textarea {
-    width: 100%;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    padding: 10px 12px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    background: var(--bg);
-    color: var(--text);
-    resize: vertical;
-    min-height: 64px;
-    line-height: 1.6;
-    outline: none;
-    transition: border-color 0.15s;
+    width: 100%; font-family: var(--font); font-size: 12px;
+    padding: 10px 12px; border-radius: var(--radius-sm);
+    border: 1.5px solid var(--blue-light); background: var(--bg);
+    color: var(--text); resize: vertical; min-height: 64px;
+    line-height: 1.6; outline: none; transition: border-color 0.15s;
   }
-  textarea:focus { border-color: var(--border-hover); }
+  textarea:focus { border-color: var(--blue); }
   textarea::placeholder { color: var(--muted); }
-  .feedback-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .feedback-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; align-items: center; }
 
-  /* Generating state */
-  .generating {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 0;
-    color: var(--muted);
-    font-size: 12px;
-  }
+  .generating { display: flex; align-items: center; gap: 10px; padding: 14px 0; color: var(--muted); font-size: 12px; font-weight: 500; }
   .dots { display: flex; gap: 4px; }
   .dots span {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--accent);
+    width: 6px; height: 6px; border-radius: 50%;
+    background: linear-gradient(135deg, #6675ED, #808EFF);
     animation: blink 1.2s ease-in-out infinite;
   }
   .dots span:nth-child(2) { animation-delay: 0.2s; }
   .dots span:nth-child(3) { animation-delay: 0.4s; }
   @keyframes blink { 0%,80%,100%{opacity:0.2} 40%{opacity:1} }
 
-  /* Error */
-  .error-msg { font-size: 12px; color: var(--red); padding: 10px 0; }
+  .error-msg { font-size: 12px; color: var(--red); padding: 10px 0; font-weight: 500; }
+  .empty-state { padding: 14px 20px 18px; color: var(--muted); font-size: 12px; }
 
-  /* Empty state */
-  .empty-card {
-    padding: 12px 20px 16px;
-    color: var(--muted);
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  /* Responsive */
   @media (max-width: 600px) {
     .product-card-header { flex-direction: column; }
-    .product-actions { width: 100%; }
-    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .product-actions { width: 100%; flex-wrap: wrap; }
+    .stats-bar { grid-template-columns: repeat(2,1fr); }
     .site-header { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
 <body>
-<div class="shell">
 
+<div class="modal-overlay hidden" id="api-modal">
+  <div class="modal-box">
+    <div class="modal-logo">
+      <div class="modal-mark">D</div>
+      <div class="modal-brand">Dista</div>
+    </div>
+    <div class="modal-title">TikTok Prompt Repository</div>
+    <div class="modal-sub">Enter your Anthropic API key to get started. It's saved only in your browser — never sent anywhere except the Anthropic API directly.</div>
+    <div class="modal-label">Anthropic API Key</div>
+    <input class="modal-input" type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off" />
+    <div class="modal-hint">Stored in browser localStorage only. Never shared or logged.</div>
+    <div class="modal-error" id="modal-error">Please enter a valid API key starting with sk-ant-</div>
+    <button class="modal-btn" onclick="saveApiKey()">Get started →</button>
+  </div>
+</div>
+
+<div class="accent-bar"></div>
+
+<div class="shell">
   <header class="site-header">
-    <div>
-      <div class="logo-row">
-        <div class="logo-mark">D</div>
-        <div>
-          <div class="site-title">Prompt Repository</div>
-          <div class="site-sub">TikTok Shop · Higgsfield + Grok · Deep-dive videos</div>
-        </div>
+    <div class="header-left">
+      <div class="header-mark">D</div>
+      <div>
+        <div class="header-title">TikTok Prompt Repository</div>
+        <div class="header-sub">Higgsfield + Grok · Deep-dive videos · 8 products</div>
       </div>
     </div>
+    <button class="header-key-btn" onclick="showApiModal()">Change API key</button>
   </header>
 
   <div class="stats-bar">
@@ -321,15 +287,12 @@
 
   <div class="section-label">Products</div>
   <div class="product-grid" id="product-grid"></div>
-
 </div>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────────────────────────
-const API_KEY = 'YOUR_API_KEY_HERE'; // Replace before deploying
-const STORAGE_KEY = 'dista_prompt_repo_v1';
+const STORAGE_KEY = 'dista_tiktok_repo_v2';
+const API_KEY_STORAGE = 'dista_anthropic_key';
 
-// ─── PRODUCTS ─────────────────────────────────────────────────────────────────
 const PRODUCTS = [
   { id:'p1', brand:'Pilgrim', name:'Advanced Hair Growth Serum (Dropper)', desc:'3% Redensyl, 4% Anagain, Korean Black Rice' },
   { id:'p2', brand:'Pilgrim', name:'Hair Growth Serum Roll-On', desc:'3% Redensyl, 4% Anagain, 5% Capilia Stem Cell Complex' },
@@ -341,28 +304,38 @@ const PRODUCTS = [
   { id:'p8', brand:'Reginald', name:'Helios Men Sunscreen SPF 50 PA++++', desc:'USFDA registered · dermatologically tested · Niacinamide + Centella Asiatica + Hyaluronic Acid · zero white cast' }
 ];
 
-// ─── STATE ───────────────────────────────────────────────────────────────────
 let state = { videos: {} };
 
 function loadState() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) state = JSON.parse(saved);
-  } catch(e) { console.warn('Could not load saved state:', e); }
+  try { const s = localStorage.getItem(STORAGE_KEY); if (s) state = JSON.parse(s); } catch(e) {}
 }
-
 function saveState() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-  catch(e) { console.warn('Could not save state:', e); }
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+function getApiKey() { return localStorage.getItem(API_KEY_STORAGE) || ''; }
+
+function saveApiKey() {
+  const val = document.getElementById('api-key-input').value.trim();
+  const err = document.getElementById('modal-error');
+  if (!val || !val.startsWith('sk-ant-')) { err.style.display = 'block'; return; }
+  err.style.display = 'none';
+  localStorage.setItem(API_KEY_STORAGE, val);
+  document.getElementById('api-modal').classList.add('hidden');
 }
 
-// ─── STATS ────────────────────────────────────────────────────────────────────
+function showApiModal() {
+  document.getElementById('api-key-input').value = getApiKey();
+  document.getElementById('api-modal').classList.remove('hidden');
+}
+
+document.getElementById('api-key-input').addEventListener('keydown', e => { if (e.key === 'Enter') saveApiKey(); });
+
 function updateStats() {
   let app=0, rej=0, prog=0;
   Object.values(state.videos).forEach(v => {
-    if (v.status === 'approved') app++;
-    else if (v.status === 'rejected') rej++;
-    else if (v.status === 'in-progress') prog++;
+    if (v.status==='approved') app++;
+    else if (v.status==='rejected') rej++;
+    else if (v.status==='in-progress') prog++;
   });
   document.getElementById('stat-gen').textContent = Object.keys(state.videos).length;
   document.getElementById('stat-app').textContent = app;
@@ -370,54 +343,54 @@ function updateStats() {
   document.getElementById('stat-prog').textContent = prog;
 }
 
-// ─── PROMPT BUILDER ───────────────────────────────────────────────────────────
-function buildPrompt(product, experimental, rejectionContext='') {
-  return `You are a TikTok Shop video prompt writer for an Indian beauty/food brand (Dista) selling on TikTok US.
+function esc(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function buildPrompt(product, experimental, rejectionFeedback='') {
+  return `You are a TikTok Shop video prompt writer for Dista — a bold Indian e-commerce brand selling on TikTok US.
 
 Product: ${product.name} by ${product.brand}
-Key details: ${product.desc}
+Details: ${product.desc}
 
-${rejectionContext ? `CONTEXT — Previous version was rejected. Team feedback: "${rejectionContext}". Address this specifically in your revision.` : ''}
+${rejectionFeedback ? `REVISION CONTEXT — Team rejected the previous version. Their feedback: "${rejectionFeedback}". Address this directly.` : ''}
 
-Generate a ${experimental ? 'CRAZY EXPERIMENTAL TikTok-style' : 'deep-dive product'} multi-scene video using Higgsfield AI + Grok.
+Generate a ${experimental ? 'CRAZY EXPERIMENTAL TikTok-style' : 'deep-dive product'} multi-scene video for Higgsfield AI + Grok.
 
 RULES:
-- Every scene must feature or directly reference this specific product — no generic scenes
-- Decide the ideal number of scenes (3–5) based on what the format needs
-- Each scene = one standalone Grok/Higgsfield video generation prompt
-- For each scene choose the best mode: "UGC Factory" (AI character presenting product) or "Cinematic" (product-focused visual)
-- Prompts must be highly visual and specific — describe exact setting, lighting, character action, camera movement, product placement
-- No medical claims. No "cures", "treats", "prevents" language
-- Hair/beauty safe language: "clinically studied ingredients", "supports hair density", "promotes stronger hair", "visible glow", "supports skin renewal"
-- Jolochip: include "Extremely spicy — consume responsibly" in at least one scene's overlay text note
-- ThriveCo "150% improvement" claim: always note "In a clinical study — results may vary" in overlay
-- No competitor brand mentions or attacks
-- No beauty filters on skin/hair demos
+- Every scene must feature or directly reference this specific product
+- Choose ideal scene count (3–5) — you decide based on the format
+- Each scene = one standalone Grok/Higgsfield generation prompt
+- For each scene choose: "UGC Factory" (AI character presenting product) or "Cinematic" (product hero, visual storytelling)
+- Prompts must be highly specific: setting, lighting, camera movement, character action, product placement, mood
+- No medical claims. No: cures, treats, prevents, diagnoses
+- Hair/beauty: "clinically studied ingredients", "supports hair density", "promotes stronger hair", "visible glow", "supports skin renewal"
+- Jolochip: at least one scene must note overlay: "Extremely spicy — consume responsibly"
+- ThriveCo 150%: note "In a clinical study — results may vary" for relevant scenes
+- No competitors. No beauty filters on skin/hair demos.
 ${experimental
-  ? '- EXPERIMENTAL format: chaotic energy, viral hook, meme-worthy, high-speed cuts, trend-driven. Think unhinged in the best way. Surprise the viewer in the first 2 seconds.'
-  : '- Standard format: educational, storytelling, lifestyle, or ingredient deep-dive. Compelling and TikTok-native but compliant.'}
+  ? '- EXPERIMENTAL: Chaotic, viral, meme energy, hook within 2 seconds, fast cuts, trend-driven, unhinged in the best way.'
+  : '- STANDARD deep-dive: Educational, storytelling, or ingredient-focused. Each scene builds depth on this product.'}
 
-Pick a creative, specific FORMAT NAME (e.g. "Ingredient origin story", "60-second ritual", "The heat test", "Shelf life check", etc.)
+Pick a creative specific FORMAT NAME.
 
-Respond ONLY with valid JSON — no markdown, no preamble:
+Respond ONLY with valid JSON, no markdown, no preamble:
 {
-  "format": "Your format name",
+  "format": "Format name",
   "scenes": [
-    {
-      "mode": "UGC Factory",
-      "prompt": "Full detailed Higgsfield/Grok generation prompt for this scene"
-    }
+    { "mode": "UGC Factory or Cinematic", "prompt": "Full generation prompt" }
   ]
 }`;
 }
 
-// ─── API CALL ─────────────────────────────────────────────────────────────────
 async function callClaude(prompt) {
+  const key = getApiKey();
+  if (!key) throw new Error('No API key set. Click "Change API key" to add yours.');
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': API_KEY,
+      'x-api-key': key,
       'anthropic-version': '2023-06-01',
       'anthropic-dangerous-direct-browser-access': 'true'
     },
@@ -427,208 +400,177 @@ async function callClaude(prompt) {
       messages: [{ role: 'user', content: prompt }]
     })
   });
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.error?.message || `API error ${res.status}`);
+  }
   const data = await res.json();
-  const text = data.content.map(c => c.text || '').join('');
-  const clean = text.replace(/```json|```/g, '').trim();
-  return JSON.parse(clean);
+  const text = data.content.map(c => c.text||'').join('');
+  return JSON.parse(text.replace(/```json|```/g,'').trim());
 }
 
-// ─── COPY ─────────────────────────────────────────────────────────────────────
 function copyText(text, btn) {
   navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
     btn.textContent = 'Copied!';
     btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy prompt'; btn.classList.remove('copied'); }, 1800);
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
   });
 }
 
-// ─── STATUS BADGE ─────────────────────────────────────────────────────────────
-function statusBadge(s) {
-  const map = { draft:'badge-draft', approved:'badge-approved', rejected:'badge-rejected', 'in-progress':'badge-inprog' };
-  const labels = { draft:'Draft', approved:'Approved', rejected:'Rejected', 'in-progress':'In progress' };
-  return `<span class="badge ${map[s]||'badge-draft'}" id="status-badge-${s}">${labels[s]||s}</span>`;
+function statusClass(s) {
+  return ({draft:'badge-draft',approved:'badge-approved',rejected:'badge-rejected','in-progress':'badge-inprog'})[s]||'badge-draft';
+}
+function statusLabel(s) {
+  return ({draft:'Draft',approved:'Approved',rejected:'Rejected','in-progress':'In progress'})[s]||s;
 }
 
-// ─── RENDER SCENES ────────────────────────────────────────────────────────────
 function renderScenes(scenes) {
-  return scenes.map((sc, i) => `
+  return scenes.map((sc,i) => `
     <div class="scene-block">
       <div class="scene-header">
         <span class="scene-num">Scene ${i+1}</span>
-        <span class="scene-mode-pill">${sc.mode}</span>
+        <span class="scene-mode-pill">${esc(sc.mode)}</span>
       </div>
-      <div class="scene-prompt">${escapeHtml(sc.prompt)}</div>
-      <button class="btn-copy" onclick="copyText(${JSON.stringify(sc.prompt)}, this)">Copy prompt</button>
-    </div>
-  `).join('');
+      <div class="scene-prompt">${esc(sc.prompt)}</div>
+      <button class="btn-copy" onclick="copyText(${JSON.stringify(sc.prompt)},this)">Copy prompt</button>
+    </div>`).join('');
 }
 
-function escapeHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ─── RENDER VIDEO BLOCK ───────────────────────────────────────────────────────
 function renderVideoBlock(vid, vidKey) {
-  return `
-    <div class="video-block${vid.experimental?' experimental':''}" id="vb-${vidKey}">
-      <div class="video-top">
-        <div class="video-format">${escapeHtml(vid.format)}</div>
-        <div class="badges">
-          ${vid.experimental ? '<span class="badge badge-exp">Experimental</span>' : ''}
-          <span class="badge ${statusClass(vid.status)}" id="sbadge-${vidKey}">${statusLabel(vid.status)}</span>
-        </div>
-      </div>
-      <div class="status-row">
-        <select onchange="setStatus('${vidKey}', this.value)">
-          <option value="draft"${vid.status==='draft'?' selected':''}>Draft</option>
-          <option value="in-progress"${vid.status==='in-progress'?' selected':''}>In progress</option>
-          <option value="approved"${vid.status==='approved'?' selected':''}>Approved</option>
-          <option value="rejected"${vid.status==='rejected'?' selected':''}>Rejected</option>
-        </select>
-      </div>
-      <div class="scenes-list" id="scenes-${vidKey}">${renderScenes(vid.scenes)}</div>
-      <div class="feedback-section">
-        <div class="feedback-label">Team feedback</div>
-        <textarea id="fb-${vidKey}" placeholder="Describe what to change, why it doesn't work, or what you'd like differently...">${escapeHtml(vid.feedback||'')}</textarea>
-        <div class="feedback-actions">
-          <button class="btn-approve" onclick="approveVideo('${vidKey}')">Approve</button>
-          <button class="btn-reject" onclick="rejectVideo('${vidKey}')">Reject</button>
-          <button class="btn-regen" onclick="regenVideo('${vidKey}')">Regen from feedback</button>
-        </div>
+  return `<div class="video-block${vid.experimental?' experimental':''}" id="vb-${vidKey}">
+    <div class="video-top">
+      <div class="video-format">${esc(vid.format)}</div>
+      <div class="badges">
+        ${vid.experimental?'<span class="badge badge-exp">Experimental</span>':''}
+        <span class="badge ${statusClass(vid.status)}" id="sbadge-${vidKey}">${statusLabel(vid.status)}</span>
       </div>
     </div>
-  `;
+    <div class="status-row">
+      <select onchange="setStatus('${vidKey}',this.value)">
+        <option value="draft"${vid.status==='draft'?' selected':''}>Draft</option>
+        <option value="in-progress"${vid.status==='in-progress'?' selected':''}>In progress</option>
+        <option value="approved"${vid.status==='approved'?' selected':''}>Approved</option>
+        <option value="rejected"${vid.status==='rejected'?' selected':''}>Rejected</option>
+      </select>
+    </div>
+    <div class="scenes-list" id="scenes-${vidKey}">${renderScenes(vid.scenes)}</div>
+    <div class="feedback-section">
+      <div class="feedback-label">Team feedback</div>
+      <textarea id="fb-${vidKey}" placeholder="What needs to change? Be specific — Claude uses this to regenerate.">${esc(vid.feedback||'')}</textarea>
+      <div class="feedback-actions">
+        <button class="btn-sm btn-approve" onclick="approveVideo('${vidKey}')">Approve</button>
+        <button class="btn-sm btn-reject" onclick="rejectVideo('${vidKey}')">Reject</button>
+        <button class="btn-sm btn-regen" onclick="regenVideo('${vidKey}')">Regen from feedback</button>
+      </div>
+    </div>
+  </div>`;
 }
 
-function statusClass(s) {
-  return { draft:'badge-draft', approved:'badge-approved', rejected:'badge-rejected', 'in-progress':'badge-inprog' }[s] || 'badge-draft';
-}
-function statusLabel(s) {
-  return { draft:'Draft', approved:'Approved', rejected:'Rejected', 'in-progress':'In progress' }[s] || s;
-}
-
-// ─── STATUS ACTIONS ───────────────────────────────────────────────────────────
 function setStatus(vidKey, status) {
+  if (!state.videos[vidKey]) return;
   state.videos[vidKey].status = status;
   const badge = document.getElementById(`sbadge-${vidKey}`);
-  if (badge) { badge.className = `badge ${statusClass(status)}`; badge.textContent = statusLabel(status); }
+  if (badge) { badge.className=`badge ${statusClass(status)}`; badge.textContent=statusLabel(status); }
   saveState(); updateStats();
 }
 
 function approveVideo(vidKey) {
-  document.querySelector(`#vb-${vidKey} select`).value = 'approved';
-  setStatus(vidKey, 'approved');
+  const sel = document.querySelector(`#vb-${vidKey} select`);
+  if (sel) sel.value='approved';
+  setStatus(vidKey,'approved');
 }
 
 function rejectVideo(vidKey) {
-  const fb = document.getElementById(`fb-${vidKey}`).value;
-  state.videos[vidKey].feedback = fb;
-  document.querySelector(`#vb-${vidKey} select`).value = 'rejected';
-  setStatus(vidKey, 'rejected');
+  const fb = document.getElementById(`fb-${vidKey}`)?.value||'';
+  if (state.videos[vidKey]) state.videos[vidKey].feedback=fb;
+  const sel = document.querySelector(`#vb-${vidKey} select`);
+  if (sel) sel.value='rejected';
+  setStatus(vidKey,'rejected');
   saveState();
 }
 
 async function regenVideo(vidKey) {
-  const fb = document.getElementById(`fb-${vidKey}`).value.trim();
-  if (!fb) { alert('Please write feedback first — explain what to change so Claude can improve it.'); return; }
+  const fb = document.getElementById(`fb-${vidKey}`)?.value?.trim();
+  if (!fb) { alert('Please write feedback first — Claude needs to know what to fix.'); return; }
   const vid = state.videos[vidKey];
-  const product = PRODUCTS.find(p => p.id === vid.productId);
+  const product = PRODUCTS.find(p=>p.id===vid.productId);
   const scenesEl = document.getElementById(`scenes-${vidKey}`);
-  const regenBtn = document.querySelector(`#vb-${vidKey} .btn-regen`);
-  regenBtn.disabled = true;
-  scenesEl.innerHTML = `<div class="generating"><div class="dots"><span></span><span></span><span></span></div> Regenerating based on feedback...</div>`;
+  const btn = document.querySelector(`#vb-${vidKey} .btn-regen`);
+  if (btn) btn.disabled=true;
+  scenesEl.innerHTML=`<div class="generating"><div class="dots"><span></span><span></span><span></span></div> Regenerating from feedback...</div>`;
   try {
     const parsed = await callClaude(buildPrompt(product, vid.experimental, fb));
-    vid.scenes = parsed.scenes;
-    vid.format = parsed.format;
-    vid.status = 'draft';
-    vid.feedback = fb;
-    state.videos[vidKey] = vid;
-    saveState();
-    scenesEl.innerHTML = renderScenes(vid.scenes);
-    document.querySelector(`#vb-${vidKey} .video-format`).textContent = vid.format;
-    document.querySelector(`#vb-${vidKey} select`).value = 'draft';
-    const badge = document.getElementById(`sbadge-${vidKey}`);
-    if (badge) { badge.className = 'badge badge-draft'; badge.textContent = 'Draft'; }
+    vid.scenes=parsed.scenes; vid.format=parsed.format; vid.status='draft'; vid.feedback=fb;
+    state.videos[vidKey]=vid; saveState();
+    scenesEl.innerHTML=renderScenes(vid.scenes);
+    const fmtEl=document.querySelector(`#vb-${vidKey} .video-format`);
+    if (fmtEl) fmtEl.textContent=vid.format;
+    const sel=document.querySelector(`#vb-${vidKey} select`);
+    if (sel) sel.value='draft';
+    const badge=document.getElementById(`sbadge-${vidKey}`);
+    if (badge) { badge.className='badge badge-draft'; badge.textContent='Draft'; }
     updateStats();
   } catch(e) {
-    scenesEl.innerHTML = `<div class="error-msg">Generation failed: ${e.message}. Check your API key and try again.</div>`;
+    scenesEl.innerHTML=`<div class="error-msg">${esc(e.message)}</div>`;
   }
-  regenBtn.disabled = false;
+  if (btn) btn.disabled=false;
 }
 
-// ─── GENERATE VIDEO ───────────────────────────────────────────────────────────
 async function generateVideo(productId, experimental) {
-  const product = PRODUCTS.find(p => p.id === productId);
+  const product = PRODUCTS.find(p=>p.id===productId);
   const card = document.getElementById(`card-${productId}`);
   const videosList = document.getElementById(`vlist-${productId}`);
-  const btn = card.querySelector(experimental ? '.btn-exp' : '.btn-gen');
+  const btn = card.querySelector(experimental?'.btn-exp':'.btn-gen');
   const origLabel = btn.textContent;
-  btn.disabled = true;
-  btn.textContent = 'Generating...';
-
+  btn.disabled=true; btn.textContent='Generating...';
   const placeholder = document.createElement('div');
-  placeholder.className = 'video-block';
-  placeholder.innerHTML = `<div class="generating"><div class="dots"><span></span><span></span><span></span></div> Crafting ${experimental ? 'experimental' : 'deep-dive'} prompts for ${product.name}...</div>`;
+  placeholder.className='video-block';
+  placeholder.innerHTML=`<div class="generating"><div class="dots"><span></span><span></span><span></span></div> Crafting ${experimental?'experimental':'deep-dive'} prompts...</div>`;
   videosList.appendChild(placeholder);
   card.classList.add('has-videos');
-
+  const emptyState=videosList.querySelector('.empty-state');
+  if (emptyState) emptyState.remove();
   try {
     const parsed = await callClaude(buildPrompt(product, experimental));
-    const vidKey = `${productId}-${Date.now()}`;
-    const vid = {
-      productId,
-      format: parsed.format,
-      scenes: parsed.scenes,
-      experimental,
-      status: 'draft',
-      feedback: ''
-    };
-    state.videos[vidKey] = vid;
-    saveState();
-    placeholder.outerHTML = renderVideoBlock(vid, vidKey);
+    const vidKey=`${productId}-${Date.now()}`;
+    const vid={productId, format:parsed.format, scenes:parsed.scenes, experimental, status:'draft', feedback:''};
+    state.videos[vidKey]=vid; saveState();
+    placeholder.outerHTML=renderVideoBlock(vid, vidKey);
     updateStats();
   } catch(e) {
-    placeholder.innerHTML = `<div class="error-msg">Failed: ${e.message}. Check API key or try again.</div>`;
+    placeholder.innerHTML=`<div class="error-msg">${esc(e.message)}</div>`;
   }
-
-  btn.disabled = false;
-  btn.textContent = origLabel;
+  btn.disabled=false; btn.textContent=origLabel;
 }
 
-// ─── RENDER PRODUCTS ──────────────────────────────────────────────────────────
 function renderProducts() {
-  const grid = document.getElementById('product-grid');
-  grid.innerHTML = PRODUCTS.map(p => {
-    const existingVideos = Object.entries(state.videos)
-      .filter(([,v]) => v.productId === p.id)
-      .map(([k,v]) => renderVideoBlock(v, k))
-      .join('');
-
-    return `
-      <div class="product-card${existingVideos ? ' has-videos' : ''}" id="card-${p.id}">
-        <div class="product-card-header">
-          <div>
-            <div class="product-brand">${p.brand}</div>
-            <div class="product-name">${p.name}</div>
-            <div class="product-desc">${p.desc}</div>
-          </div>
-          <div class="product-actions">
-            <button class="btn-gen" onclick="generateVideo('${p.id}', false)">Generate video</button>
-            <button class="btn-exp" onclick="generateVideo('${p.id}', true)">Generate experimental</button>
-          </div>
+  const grid=document.getElementById('product-grid');
+  grid.innerHTML=PRODUCTS.map(p => {
+    const existing=Object.entries(state.videos)
+      .filter(([,v])=>v.productId===p.id)
+      .map(([k,v])=>renderVideoBlock(v,k)).join('');
+    return `<div class="product-card${existing?' has-videos':''}" id="card-${p.id}">
+      <div class="product-card-header">
+        <div>
+          <div class="product-brand">${esc(p.brand)}</div>
+          <div class="product-name">${esc(p.name)}</div>
+          <div class="product-desc">${esc(p.desc)}</div>
         </div>
-        <div class="videos-list" id="vlist-${p.id}">
-          ${existingVideos || `<div class="empty-card">No videos yet — click generate to start</div>`}
+        <div class="product-actions">
+          <button class="btn-gen" onclick="generateVideo('${p.id}',false)">Generate video</button>
+          <button class="btn-exp" onclick="generateVideo('${p.id}',true)">Generate experimental</button>
         </div>
       </div>
-    `;
+      <div class="videos-list" id="vlist-${p.id}">
+        ${existing||'<div class="empty-state">No videos yet — click generate to start.</div>'}
+      </div>
+    </div>`;
   }).join('');
 }
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
 loadState();
+if (!getApiKey()) showApiModal();
 renderProducts();
 updateStats();
 </script>
