@@ -342,152 +342,223 @@ async function callClaude(messages, maxTokens=2500){
 }
 
 async function searchProductInfo(product){
-  // Use Claude to search and summarize product info from distacart + amazon.in
-  const searchPrompt = `Search for detailed product information about "${product.name}" by ${product.brand}.
+  const searchPrompt = `Research this product for TikTok content writing. Extract FACTS ONLY — no health claims, no medical language.
 
-Look at:
-1. Distacart listing: ${product.distacart}
-2. Amazon.in search: ${product.amazon}
+Product: "${product.name}" by ${product.brand}
+Check: ${product.distacart} and Amazon.in search for: ${product.amazon}
 
-Extract and summarize:
-- Key ingredients with percentages/concentrations
-- Clinically proven claims with sources
-- How it works (mechanism)
-- Target audience (who it's for)
-- Key differentiators vs generic products
-- Real customer results/reviews if available
-- Any certifications or studies
+Extract only:
+- Exact ingredients with percentages as listed on packaging
+- Product format and how it is applied (dropper, roll-on, serum, etc.)
+- Unique delivery mechanism if any (e.g. microneedle spicules, stem cell complex)
+- Who it is designed for (target user, hair/skin type)
+- Certifications or registrations (USFDA, dermatologically tested, etc.)
+- Scoville rating and pepper types for Jolochip only
+- Interesting or unusual facts about the formulation
 
-Be specific and factual. This will be used to write TikTok video prompts.
-Keep response under 300 words. Focus on facts that make compelling video content.`;
+Do NOT include: "clinically proven", "stops X", "cures Y", timeframe promises, before/after claims, or anything that sounds like medical advice.
+Output as short bullet points. Max 200 words.`;
 
   try {
-    const result = await callClaude([{role:'user',content:searchPrompt}], 600);
+    const result = await callClaude([{role:'user',content:searchPrompt}], 500);
     return result;
   } catch(e) {
-    return product.desc; // fallback to basic desc
+    return product.desc;
   }
 }
 
 function buildVideoPrompt(product, productInfo, videoType, rejectionFeedback=''){
   const isExp = videoType === 'experimental';
   const isImg = videoType === 'image';
-  const complianceRules = getComplianceRules(product);
+  const productRules = getProductComplianceRules(product);
 
-  return `You are an expert TikTok Shop video producer for Dista, an Indian e-commerce brand. You know Higgsfield AI, Grok video generation, and SORA deeply.
+  return `You are an expert TikTok Shop video producer for Dista, an Indian e-commerce brand selling on TikTok US. You know Higgsfield AI, Grok video generation, and SORA deeply.
 
 PRODUCT: ${product.name} by ${product.brand}
-RESEARCHED PRODUCT INFO:
+PRODUCT FACTS (researched from Distacart + Amazon.in):
 ${productInfo}
 
-VIDEO TYPE: ${isImg ? 'IMAGE-TO-VIDEO (Grok)' : isExp ? 'EXPERIMENTAL TikTok format' : 'PROMPT-TO-VIDEO (Grok)'}
+VIDEO TYPE: ${isImg ? 'IMAGE-TO-VIDEO (character image in Grok first, then all scenes reference it)' : isExp ? 'EXPERIMENTAL — chaotic, viral, pattern-interrupt TikTok format' : 'PROMPT-TO-VIDEO (Grok text-to-video)'}
 
-${rejectionFeedback ? `REVISION — Team rejected previous version. Feedback: "${rejectionFeedback}". Fix this specifically.` : ''}
+${rejectionFeedback ? 'REVISION — Team rejected the previous version. Feedback: "' + rejectionFeedback + '". Address this directly and specifically.' : ''}
 
-TIKTOK COMPLIANCE (MANDATORY):
-${complianceRules}
-- ❌ No medical claims, no "cures/treats/prevents"
-- ❌ No beauty filters on skin/hair demos
-- ❌ No competitor attacks
-- ❌ Still frames = violation, every scene needs movement
-- ✅ AI label toggle must be ON when posting
-- ✅ Run through Video Pre-Check before posting
+━━━ TIKTOK OFFICIAL POLICY — ALL RULES ARE MANDATORY ━━━
 
-YOUR JOB: Generate a complete video package with:
+AIGC RULES (violations cause immediate CHR deduction):
+❌ NEVER impersonate doctors, scientists, officials, celebrities — generic everyday people ONLY
+❌ NEVER show before/after effects on AI characters (no hair regrowth, skin smoothing depicted on avatar)
+❌ NEVER create sad/crisis/disaster scenes to pressure buying (floods, distress, "please support me")
+❌ NEVER put the product in Grok/Higgsfield character scenes — AI-generated product visuals cause "inconsistent product promotion" violations because they won't match the real listing. Product ONLY appears in SORA B-roll using the actual uploaded product image.
+❌ NEVER use static scenes — every scene must have visible physical movement
+✅ ALWAYS: note in complianceCheck that AI label must be turned on before posting
 
-1. CHARACTER — Define the perfect character for this specific product:
-   - Age, look, energy, clothing, setting
-   - Why THIS character fits THIS product's audience
-   - Be specific enough that Grok generates a consistent image every time
+BANNED WORDS — never use in dialogue or overlays:
+eliminates, heals, treats, kills, erases, stops, cures, removes, prevents, reverses, corrects, repairs, clinically proven, scientifically proven, dermatologist recommended, guaranteed
 
-2. VISUAL CONSISTENCY — One look & feel block that ALL scenes must follow:
-   - Lighting style (e.g. "warm golden hour, soft key light from left")
-   - Color grade (e.g. "warm tones, slightly desaturated, clean whites")
-   - Camera style (e.g. "handheld, slightly shaky, TikTok-native")
-   - Environment/background
-   - Character wardrobe and hair (must stay identical across all scenes)
+BANNED TIMEFRAMES — never specify when results happen:
+instantly, overnight, in X days, in X weeks, one use, one bottle, permanently, quickly, fast-acting
 
-${isImg ? `3. GROK CHARACTER IMAGE PROMPT — One detailed prompt to generate the character image in Grok. This image will be used as the reference for ALL video scenes. Must include: exact appearance, outfit, expression, background, lighting, photography style.` : ''}
+BANNED CONDITIONS TO CLAIM TREATING/REMOVING:
+acne, scars, wrinkles, dark spots, skin whitening, hairloss, balding, stretch marks, melasma, cellulite, dandruff
 
-4. SCENES (3-5, you decide based on format):
-   For EACH scene provide:
-   a) SCENE TYPE: "Grok/Higgsfield" (human character) or "SORA" (product animation only)
-   b) VISUAL PROMPT: Detailed Higgsfield/Grok action prompt — what the character does, camera movement, product placement. Must reference the visual consistency block. Product MUST be visible.
-   c) DIALOGUE (max 245 chars for Grok lip sync): What the character says. Must be TikTok-native, punchy, product-specific. NOT generic.
-   d) DELIVERY: "lip-sync" (Grok) or "tts-overlay" (text-to-speech over video)
-   e) SCENE NOTE: Any overlay text, disclaimer, or special instruction
+SAFE LANGUAGE:
+✅ reduce, help, assist, improve, support, soothe, lighten, diminish, noticed, felt
+✅ Personal framing: "I noticed...", "In my experience...", "My hair felt..." — always safer than product claims
+✅ Add overlay: "Individual results may vary" whenever referencing any personal result
 
-   SCENE 1 MUST have a scroll-stopping HOOK in both the visual and dialogue. Hook = within 2 seconds, viewer must feel compelled to watch.
+NO MEDICAL IMAGERY:
+❌ No lab coats, scrubs, or medical professional attire
+❌ No clinical settings (labs, hospitals, pharmacies)
+❌ No implying any medical or professional endorsement
 
-5. B-ROLL (2-3 shots):
-   Product animation B-roll using SORA only:
-   - Upload product image to SORA
-   - Describe exactly what animation/movement SORA should generate
-   - Be specific: product rotation, ingredient visualization, texture closeup, etc.
+NO MISLEADING CONTENT:
+❌ No competitor comparisons or attacks
+❌ No absolute claims ("No.1 in Asia") without source shown on screen
+❌ No price mentions (price may change after posting)
 
-${isExp ? `EXPERIMENTAL FORMAT RULES: Chaotic energy. Viral. Meme-worthy. Pattern interrupt. Hook within 1 second. Fast cuts implied. Unhinged but still compliant. Think: what would make someone screenshot and send to a friend?` : ''}
+PRODUCT-SPECIFIC RULES:
+${productRules}
 
-Respond ONLY in this exact JSON — no markdown, no preamble:
+━━━ SCENE CONSTRUCTION RULES ━━━
+
+EVERY SCENE must have:
+- A DIFFERENT physical location from all other scenes
+- A DIFFERENT physical action the character is doing
+- Visible movement throughout — no static poses
+- NO product visible — product only in SORA B-roll
+- Same character appearance (outfit, hair, face) as all other scenes for visual consistency
+
+BANNED SCENE SETUPS:
+❌ Person sitting still and talking to camera (most common failure — do not do this)
+❌ Person standing still presenting to camera
+❌ Product visible anywhere in the scene
+
+GOOD SCENE ACTIONS:
+✅ Walking toward camera while gesturing
+✅ Reacting with genuine surprise/delight expression mid-motion
+✅ Running hands through hair while looking in bathroom mirror (no product)
+✅ Laughing while turning to face camera
+✅ Pointing at head/face while moving through space
+✅ Doing something (cooking, stretching, walking outside) when suddenly reacting
+
+DIALOGUE RULES:
+- Max 245 characters per scene (Grok lip sync hard limit)
+- Personal experience framing ONLY: "I", "my", "me" not "this product does X"
+- Hook scene 1: surprising statement or question that stops scroll in 2 seconds
+- TikTok-native casual tone — sounds like a real person, not an advertisement
+- Never say the banned words above
+
+${isExp ? 'EXPERIMENTAL FORMAT: Chaotic energy. Hook within 1 second. Pattern interrupt. Meme-worthy. Fast cuts implied in every prompt. Unexpected reaction or twist. Unhinged but 100% policy-compliant.' : ''}
+
+━━━ OUTPUT FORMAT ━━━
+
+Respond ONLY with this exact JSON. No markdown, no explanation, nothing else:
 {
-  "format": "Creative format name",
-  "character": "Full character description",
-  "visualConsistency": "Complete look & feel block that all scenes reference",
-  ${isImg ? '"characterImagePrompt": "Full Grok image generation prompt for the character",' : ''}
+  "format": "Creative specific format name",
+  "character": "Detailed character description — age, look, outfit (identical across scenes), hair, energy, personality. NO medical attire.",
+  "visualConsistency": "Lighting, colour grade, camera style, mood — one reference block all scenes follow",
+  ${isImg ? '"characterImagePrompt": "Full single-paragraph Grok image prompt to generate the character reference image. Include: exact physical description, outfit, expression, background, lighting, photography style. Photorealistic.",' : ''}
   "scenes": [
     {
-      "sceneType": "Grok/Higgsfield or SORA",
-      "isHook": true/false,
-      "visualPrompt": "Full action/visual prompt",
-      "dialogue": "What character says (max 245 chars)",
+      "sceneType": "Grok/Higgsfield",
+      "isHook": true,
+      "location": "Specific location description",
+      "action": "Exact physical action character is doing",
+      "visualPrompt": "Full Grok/Higgsfield generation prompt — character physical action + camera movement + environment. NO product in frame. References visual consistency.",
+      "dialogue": "What character says — max 245 chars, personal framing, TikTok-native",
       "delivery": "lip-sync or tts-overlay",
-      "sceneNote": "Any overlay text or disclaimer"
+      "overlayText": "Any on-screen text, disclaimer, or emphasis word"
     }
   ],
   "broll": [
     {
       "tool": "SORA",
-      "instruction": "Upload product image to SORA. Then: [exact animation description]",
-      "note": "Where in video to use this b-roll shot"
+      "uploadInstruction": "Upload [exact product name] product image to SORA",
+      "animationPrompt": "Exact animation SORA should generate from the product image",
+      "placement": "Where in the final edit this B-roll shot goes"
     }
   ],
-  "complianceCheck": ["list of compliance items verified for this video"]
+  "complianceCheck": [
+    "Turn on AI label before posting",
+    "Run through TikTok Video Pre-Check tool",
+    "Verify no product appears in character scenes",
+    "Confirm all dialogue is under 245 chars"
+  ]
 }`;
 }
 
-function getComplianceRules(product){
+function getProductComplianceRules(product){
   const id = product.id;
-  if(['p1','p2','p5'].includes(id)) return `- Hair products: say "supports hair density", "clinically studied ingredients", "promotes stronger hair"\n- ❌ Never: "cures hair loss", "treats alopecia", "stops hair fall permanently"\n- Before/after needs "Results may vary" on screen`;
-  if(['p3','p4'].includes(id)) return `- Jolochip: challenge/reaction format ✅\n- ❌ No health claims ("boosts metabolism")\n- ✅ Must show "Extremely spicy — consume responsibly"\n- ❌ No minors consuming product`;
-  if(id==='p5') return `- ThriveCo: can say "150% improvement" but MUST add "In a clinical study — results may vary"`;
-  if(['p6','p7'].includes(id)) return `- Vitamin C/Retinol: say "brightens skin tone", "supports skin renewal", "visible glow"\n- ❌ Never: "removes wrinkles", "treats acne"\n- Lifestyle framing, not medical`;
-  if(id==='p8') return `- Sunscreen: reference SPF 50, PA++++, zero white cast, non-greasy\n- ❌ Never claim "prevents skin cancer" or disease\n- ✅ Natural application, no filters`;
+  if(['p1','p2'].includes(id)) return `Pilgrim hair serum:
+✅ Say: "I noticed my hair felt stronger", "ingredients people are obsessing over", "Redensyl and Anagain in one serum"
+❌ Never: "stops hair loss", "regrows hair", "clinically proven", any timeframe
+- Overlay required if any personal result mentioned: "Individual results may vary"`;
+  if(id==='p5') return `ThriveCo Hair Serum 2.0:
+✅ Say: "REGENDIL — four active ingredients in one", "my scalp feels different with regular use"
+✅ Can reference the study IF shown on screen with source AND overlay "In a study — results may vary"
+❌ Never: "150% improvement" as a standalone claim without the source shown on screen
+❌ Never: "stops hair loss", "proven to regrow", any timeframe`;
+  if(id==='p3') return `Jolochip Last Chip:
+✅ Format: challenge/reaction — authentic physical reaction is the content
+✅ Must show overlay: "Extremely spicy — consume responsibly"
+✅ Say: "2.2 million Scoville", "Carolina Reaper, Scorpion, Ghost Pepper all in one chip"
+❌ Never: health claims of any kind ("clears sinuses", "boosts metabolism")
+❌ Never: suggest safe for children or show minors consuming`;
+  if(id==='p4') return `Jolochip Hottest Chocolate:
+✅ Format: challenge/reaction, unboxing reaction, "I made a mistake" energy
+✅ Must show overlay: "Extremely spicy — consume responsibly"
+✅ Say: "skull-shaped", "2.2 million Scoville", "this is not a normal chocolate"
+❌ Never: health claims, suggest safe for children`;
+  if(id==='p6') return `Derma Co Vitamin C Ampoule:
+✅ Say: "15% L-Ascorbic Acid", "individually sealed glass ampoules", "my skin looks more even with regular use"
+✅ Lifestyle/ritual framing — "part of my morning routine"
+❌ Never: "removes dark spots", "whitens skin", "treats acne", any timeframe
+- Overlay required: "Individual results may vary"`;
+  if(id==='p7') return `Derma Co Retinol Microneedle Serum:
+✅ Say: "needle-like spicules from marine sponges", "feels different on skin", "interesting texture"
+✅ Say: "5x deeper than a regular serum" IF referencing the mechanism, not a result
+❌ Never: "removes wrinkles", "treats acne", "erases fine lines", any timeframe
+- Overlay required: "Individual results may vary"`;
+  if(id==='p8') return `Reginald Helios Sunscreen SPF 50 PA++++:
+✅ Say: "SPF 50 PA++++", "USFDA registered", "zero white cast", "Niacinamide and Centella Asiatica"
+✅ Say: "feels like nothing on my skin" — personal experience of texture
+❌ Never: "prevents skin cancer", "stops UV damage permanently", any disease prevention claim
+❌ Never: use filters or editing to show skin tone change`;
   return '';
 }
-
 function renderScenes(scenes, vidKey){
-  return (scenes||[]).map((sc,i)=>`
+  return (scenes||[]).map((sc,i)=>{
+    const vp = sc.visualPrompt||'';
+    const dl = sc.dialogue||'';
+    const charCount = dl.length;
+    const countColor = charCount>245?'var(--red)':charCount>200?'var(--amber)':'var(--green)';
+    return `
     <div class="scene-block">
       <div class="scene-header">
         <span class="scene-num">Scene ${i+1}</span>
         ${sc.isHook?'<span class="scene-hook-pill">Hook</span>':''}
-        <span class="scene-type-pill">${esc(sc.sceneType||'Grok')}</span>
+        <span class="scene-type-pill">${esc(sc.sceneType||'Grok/Higgsfield')}</span>
       </div>
-      <div class="scene-section-label">Visual prompt</div>
-      <div class="scene-prompt-text">${esc(sc.visualPrompt)}</div>
-      <button class="btn-copy" onclick="copyText(${JSON.stringify(sc.visualPrompt)},this)">Copy visual prompt</button>
+      ${sc.location?`<div class="scene-section-label">Location</div><div class="scene-prompt-text" style="font-weight:600;color:var(--navy);">${esc(sc.location)}</div>`:''}
+      ${sc.action?`<div class="scene-section-label">Character action</div><div class="scene-prompt-text">${esc(sc.action)}</div>`:''}
+      <div class="scene-section-label">Visual prompt — Grok/Higgsfield</div>
+      <div class="scene-prompt-text">${esc(vp)}</div>
+      <button class="btn-copy" onclick="copyText(${JSON.stringify(vp)},this)">Copy visual prompt</button>
       <div class="dialogue-block">
         <div class="dialogue-speaker">Dialogue — ${sc.delivery==='lip-sync'?'Grok lip sync':'TTS overlay'}</div>
-        <div class="dialogue-text">"${esc(sc.dialogue)}"</div>
-        <div class="dialogue-charcount">${(sc.dialogue||'').length}/245 chars</div>
-        <button class="btn-copy" onclick="copyText(${JSON.stringify(sc.dialogue)},this)" style="margin-top:6px;">Copy dialogue</button>
+        <div class="dialogue-text">"${esc(dl)}"</div>
+        <div class="dialogue-charcount" style="color:${countColor}">${charCount}/245 chars${charCount>245?' ⚠️ TOO LONG':''}</div>
+        <button class="btn-copy" onclick="copyText(${JSON.stringify(dl)},this)" style="margin-top:6px;">Copy dialogue</button>
       </div>
       <div class="delivery-toggle">
         <span class="delivery-label">Delivery:</span>
         <button class="toggle-btn${sc.delivery==='lip-sync'?' active':''}" onclick="toggleDelivery('${vidKey}',${i},'lip-sync',this)">Lip sync</button>
         <button class="toggle-btn${sc.delivery==='tts-overlay'?' active':''}" onclick="toggleDelivery('${vidKey}',${i},'tts-overlay',this)">TTS overlay</button>
       </div>
-      ${sc.sceneNote?`<div class="scene-section-label">Overlay / note</div><div class="scene-prompt-text" style="color:var(--orange);font-weight:600;">${esc(sc.sceneNote)}</div>`:''}
-    </div>`).join('');
+      ${sc.overlayText?`<div class="scene-section-label">On-screen overlay text</div><div class="scene-prompt-text" style="color:var(--orange);font-weight:600;">${esc(sc.overlayText)}</div>`:''}
+      ${sc.sceneNote?`<div class="scene-section-label">Note</div><div class="scene-prompt-text" style="color:var(--orange);font-weight:600;">${esc(sc.sceneNote)}</div>`:''}
+    </div>`;
+  }).join('');
 }
 
 function toggleDelivery(vidKey,sceneIdx,delivery,btn){
@@ -502,16 +573,24 @@ function toggleDelivery(vidKey,sceneIdx,delivery,btn){
 }
 
 function renderBroll(broll){
-  return (broll||[]).map((br,i)=>`
+  return (broll||[]).map((br,i)=>{
+    const prompt = br.animationPrompt||br.instruction||'';
+    const upload = br.uploadInstruction||('Upload product image to SORA');
+    const placement = br.placement||'';
+    return `
     <div class="broll-block">
       <div class="broll-header">
         <span class="broll-num">B-roll ${i+1}</span>
         <span class="sora-pill">SORA</span>
       </div>
-      <div class="scene-prompt-text">${esc(br.instruction)}</div>
-      ${br.note?`<div class="broll-note">${esc(br.note)}</div>`:''}
-      <button class="btn-copy" onclick="copyText(${JSON.stringify(br.instruction)},this)">Copy SORA prompt</button>
-    </div>`).join('');
+      <div class="scene-section-label">Upload instruction</div>
+      <div class="scene-prompt-text" style="font-weight:600;color:var(--navy);">${esc(upload)}</div>
+      <div class="scene-section-label">Animation prompt</div>
+      <div class="broll-prompt-text">${esc(prompt)}</div>
+      ${placement?`<div class="broll-note">Placement: ${esc(placement)}</div>`:''}
+      <button class="btn-copy" onclick="copyText(${JSON.stringify(prompt)},this)">Copy SORA prompt</button>
+    </div>`;
+  }).join('');
 }
 
 function renderVideoBlock(vid, vidKey){
