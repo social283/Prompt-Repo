@@ -202,6 +202,16 @@
   .error-msg{font-size:12px;color:var(--red);padding:10px 0;font-weight:500;}
   .empty-state{padding:14px 20px 18px;color:var(--muted);font-size:12px;}
 
+  /* Shoppable toggle */
+  .content-toggle{display:flex;gap:6px;padding:10px 20px;background:var(--bg);border-top:1px solid var(--blue-light);align-items:center;}
+  .toggle-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-right:4px;}
+  .ct-btn{font-family:var(--font);font-size:11px;font-weight:700;padding:6px 14px;border-radius:var(--radius-pill);border:1.5px solid var(--blue-light);background:transparent;color:var(--muted);cursor:pointer;transition:all 0.15s;letter-spacing:0.02em;}
+  .ct-btn:active{transform:scale(0.97);}
+  .ct-btn.ct-shoppable.active{background:linear-gradient(135deg,#6675ED,#808EFF);border-color:transparent;color:#fff;box-shadow:0 3px 12px rgba(102,117,237,0.35);}
+  .ct-btn.ct-nonshoppable.active{background:linear-gradient(135deg,#22c55e,#16a34a);border-color:transparent;color:#fff;box-shadow:0 3px 12px rgba(34,197,94,0.3);}
+  .badge-shoppable{background:rgba(102,117,237,0.1);color:var(--blue);border-color:rgba(102,117,237,0.25);}
+  .badge-nonshoppable{background:var(--green-dim);color:var(--green);border-color:rgba(34,197,94,0.25);}
+
   /* Compliance checklist */
   .compliance-bar{background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;font-size:11px;color:#15803d;font-weight:500;}
 
@@ -367,10 +377,42 @@ Output as short bullet points. Max 200 words.`;
   }
 }
 
-function buildVideoPrompt(product, productInfo, videoType, rejectionFeedback=''){
+function buildVideoPrompt(product, productInfo, videoType, rejectionFeedback='', contentType='shoppable'){
   const isExp = videoType === 'experimental';
   const isImg = videoType === 'image';
   const productRules = getProductComplianceRules(product);
+
+  const isShoppable = contentType !== 'non-shoppable';
+
+  const shoppableSection = isShoppable ? `
+━━━ SHOPPABLE VIDEO RULES ━━━
+This video has a product link. It must feel like entertainment that happens to feature a product — NOT an ad.
+- Product story structure: Hook with relatable moment → natural product discovery → personal experience → soft CTA
+- CTA must be: "Link in bio if you're curious" or "Check it out below" — NEVER pushy or salesy
+- Character discovers or shares the product like a real person would — not a spokesperson
+- Product mentioned naturally in dialogue — character shares their experience, not product features
+` : `
+━━━ NON-SHOPPABLE VIDEO RULES ━━━
+This video has NO product link. It is pure entertainment/value content. Goal: followers, reach, watch time.
+- Entertainment FIRST — product is NOT the point of this video
+- Choose ONE format: trend-jacking / relatable humor / reaction or hot take
+- Product may appear subtly in SORA B-roll but is NEVER the focus
+- NO product CTA. Instead use: "Follow for more", "Save this", "Tag someone who needs this", or comment bait question
+- Hook must be a relatable moment, trend, humor, or hot take — NOT a product feature
+- Dialogue sounds like a real person having a relatable moment — not promoting anything
+
+NON-SHOPPABLE FORMAT OPTIONS (pick the best fit for this product's audience):
+TREND-JACKING: Use a current TikTok format/trend adapted to the product's world
+  Examples: "POV: your hair when you forgot your serum", "Wait, I can explain...", "Tell me without telling me you're a skincare addict", transition trends
+RELATABLE HUMOR: Funny, self-aware content the target audience immediately recognizes
+  Examples: "Types of people at Sephora", "My Roman Empire is that retinol actually works", "Red flags in a skincare routine", "Things I do instead of sleeping: 10pm routine"
+REACTION / HOT TAKE: Surprising opinion or debunking that sparks engagement
+  Examples: "Unpopular opinion: not all expensive serums are worth it", "Rating your skincare routine", "Dermatologists watching this 😨"
+`;
+
+  const ctaSection = isShoppable
+    ? `CTA options (pick the most natural): "Link in bio if you're curious" / "Check it out below" / "You can find it linked"`
+    : `CTA options (NO product link): "Follow for more content like this" / "Save this for later" / "Tag someone who needs to see this" / Comment bait: ask a question viewers will answer`;
 
   return `You are an expert TikTok Shop video producer for Dista, an Indian e-commerce brand selling on TikTok US. You know Higgsfield AI, Grok video generation, and SORA deeply.
 
@@ -379,95 +421,91 @@ PRODUCT FACTS (researched from Distacart + Amazon.in):
 ${productInfo}
 
 VIDEO TYPE: ${isImg ? 'IMAGE-TO-VIDEO (character image in Grok first, then all scenes reference it)' : isExp ? 'EXPERIMENTAL — chaotic, viral, pattern-interrupt TikTok format' : 'PROMPT-TO-VIDEO (Grok text-to-video)'}
+CONTENT TYPE: ${isShoppable ? 'SHOPPABLE — product linked, entertainment-first product story' : 'NON-SHOPPABLE — pure entertainment, no product link, follower growth focus'}
 
-${rejectionFeedback ? 'REVISION — Team rejected the previous version. Feedback: "' + rejectionFeedback + '". Address this directly and specifically.' : ''}
+${rejectionFeedback ? 'REVISION — Team rejected the previous version. Feedback: "' + rejectionFeedback + '". Address this directly.' : ''}
 
-━━━ TIKTOK OFFICIAL POLICY — ALL RULES ARE MANDATORY ━━━
+${shoppableSection}
 
-AIGC RULES (violations cause immediate CHR deduction):
+━━━ TIKTOK OFFICIAL POLICY — ALL MANDATORY ━━━
+
+AIGC RULES:
 ❌ NEVER impersonate doctors, scientists, officials, celebrities — generic everyday people ONLY
-❌ NEVER show before/after effects on AI characters (no hair regrowth, skin smoothing depicted on avatar)
-❌ NEVER create sad/crisis/disaster scenes to pressure buying (floods, distress, "please support me")
-❌ NEVER put the product in Grok/Higgsfield character scenes — AI-generated product visuals cause "inconsistent product promotion" violations because they won't match the real listing. Product ONLY appears in SORA B-roll using the actual uploaded product image.
+❌ NEVER show before/after effects on AI characters (no hair regrowth, skin smoothing on avatar)
+❌ NEVER create sad/crisis/disaster scenes to pressure buying
+❌ NEVER put product in Grok/Higgsfield scenes — AI product visuals cause inconsistent product promotion violations. Product ONLY in SORA B-roll using actual uploaded product image.
 ❌ NEVER use static scenes — every scene must have visible physical movement
-✅ ALWAYS: note in complianceCheck that AI label must be turned on before posting
+✅ Note in complianceCheck: AI label must be on before posting
 
-BANNED WORDS — never use in dialogue or overlays:
-eliminates, heals, treats, kills, erases, stops, cures, removes, prevents, reverses, corrects, repairs, clinically proven, scientifically proven, dermatologist recommended, guaranteed
+BANNED WORDS (never in dialogue or overlays):
+eliminates, heals, treats, kills, erases, stops, cures, removes, prevents, reverses, corrects, clinically proven, scientifically proven, dermatologist recommended, guaranteed
 
-BANNED TIMEFRAMES — never specify when results happen:
-instantly, overnight, in X days, in X weeks, one use, one bottle, permanently, quickly, fast-acting
+BANNED TIMEFRAMES: instantly, overnight, in X days/weeks, one use, one bottle, permanently
 
-BANNED CONDITIONS TO CLAIM TREATING/REMOVING:
-acne, scars, wrinkles, dark spots, skin whitening, hairloss, balding, stretch marks, melasma, cellulite, dandruff
+BANNED CONDITIONS to claim treating/removing:
+acne, scars, wrinkles, dark spots, skin whitening, hairloss, balding, stretch marks, melasma, cellulite
 
-SAFE LANGUAGE:
-✅ reduce, help, assist, improve, support, soothe, lighten, diminish, noticed, felt
-✅ Personal framing: "I noticed...", "In my experience...", "My hair felt..." — always safer than product claims
-✅ Add overlay: "Individual results may vary" whenever referencing any personal result
+SAFE LANGUAGE: reduce, help, improve, support, noticed, felt, looked more even, seemed stronger
+PERSONAL FRAMING always safer: "I noticed...", "My hair felt..." not "this product does X"
+Add overlay "Individual results may vary" whenever any personal result is referenced
 
-NO MEDICAL IMAGERY:
-❌ No lab coats, scrubs, or medical professional attire
-❌ No clinical settings (labs, hospitals, pharmacies)
-❌ No implying any medical or professional endorsement
-
-NO MISLEADING CONTENT:
-❌ No competitor comparisons or attacks
-❌ No absolute claims ("No.1 in Asia") without source shown on screen
-❌ No price mentions (price may change after posting)
+NO MEDICAL IMAGERY: no lab coats, clinical settings, no implying professional endorsement
+NO MISLEADING: no competitor attacks, no absolute claims without source on screen, no price mentions
 
 PRODUCT-SPECIFIC RULES:
 ${productRules}
 
-━━━ SCENE CONSTRUCTION RULES ━━━
+━━━ SCENE CONSTRUCTION — CRITICAL ━━━
 
 EVERY SCENE must have:
-- A DIFFERENT physical location from all other scenes
+- A DIFFERENT physical location from every other scene
 - A DIFFERENT physical action the character is doing
 - Visible movement throughout — no static poses
-- NO product visible — product only in SORA B-roll
-- Same character appearance (outfit, hair, face) as all other scenes for visual consistency
+- NO product in the scene frame — product only in SORA B-roll
+- Identical character appearance across all scenes (outfit, hair, face)
 
-BANNED SCENE SETUPS:
-❌ Person sitting still and talking to camera (most common failure — do not do this)
+THE MOST COMMON FAILURE — DO NOT DO THIS:
+❌ Person sitting still and talking to camera
 ❌ Person standing still presenting to camera
-❌ Product visible anywhere in the scene
+❌ Same environment repeated across scenes
 
-GOOD SCENE ACTIONS:
-✅ Walking toward camera while gesturing
-✅ Reacting with genuine surprise/delight expression mid-motion
-✅ Running hands through hair while looking in bathroom mirror (no product)
-✅ Laughing while turning to face camera
-✅ Pointing at head/face while moving through space
-✅ Doing something (cooking, stretching, walking outside) when suddenly reacting
+GOOD SCENE ACTIONS (use variety across scenes):
+✅ Walking toward camera while gesturing with genuine expression
+✅ Mid-laugh turning to face camera
+✅ Reacting with wide-eyed surprise while in motion
+✅ Running hands through hair in bathroom mirror while talking (no product)
+✅ Doing something (stretching, walking outside, making coffee) then reacting
+✅ Pointing at own face/hair while moving through space
 
 DIALOGUE RULES:
-- Max 245 characters per scene (Grok lip sync hard limit)
-- Personal experience framing ONLY: "I", "my", "me" not "this product does X"
-- Hook scene 1: surprising statement or question that stops scroll in 2 seconds
-- TikTok-native casual tone — sounds like a real person, not an advertisement
-- Never say the banned words above
+- Max 245 characters per scene (Grok hard limit — count carefully)
+- ${isShoppable ? 'Personal experience framing: share a relatable moment that leads naturally to the product' : 'Pure entertainment/humor/trend framing — product is not the point'}
+- Hook scene 1: surprising, relatable, or funny — stops scroll in 2 seconds
+- Sounds like a real person — casual, direct, never like an ad
+- NEVER use banned words above
 
-${isExp ? 'EXPERIMENTAL FORMAT: Chaotic energy. Hook within 1 second. Pattern interrupt. Meme-worthy. Fast cuts implied in every prompt. Unexpected reaction or twist. Unhinged but 100% policy-compliant.' : ''}
+${isExp ? 'EXPERIMENTAL FORMAT: Chaotic energy. Viral hook in first 1 second. Pattern interrupt. Meme-worthy. Fast cuts implied. Unhinged but 100% compliant.' : ''}
 
-━━━ OUTPUT FORMAT ━━━
+${ctaSection}
 
-Respond ONLY with this exact JSON. No markdown, no explanation, nothing else:
+━━━ OUTPUT ━━━
+
+Respond ONLY with this exact JSON — no markdown, no preamble:
 {
-  "format": "Creative specific format name",
-  "character": "Detailed character description — age, look, outfit (identical across scenes), hair, energy, personality. NO medical attire.",
-  "visualConsistency": "Lighting, colour grade, camera style, mood — one reference block all scenes follow",
-  ${isImg ? '"characterImagePrompt": "Full single-paragraph Grok image prompt to generate the character reference image. Include: exact physical description, outfit, expression, background, lighting, photography style. Photorealistic.",' : ''}
+  "format": "Creative specific format name that reflects the entertainment angle",
+  "character": "Specific everyday person — age, vibe, exact outfit (stays identical), hair, energy. NO medical attire.",
+  "visualConsistency": "Lighting, colour grade, camera style, mood — one block all scenes must follow",
+  ${isImg ? '"characterImagePrompt": "Full single-paragraph Grok image prompt. Exact physical description, outfit, expression, background, lighting. Photorealistic.",' : ''}
   "scenes": [
     {
       "sceneType": "Grok/Higgsfield",
       "isHook": true,
-      "location": "Specific location description",
-      "action": "Exact physical action character is doing",
-      "visualPrompt": "Full Grok/Higgsfield generation prompt — character physical action + camera movement + environment. NO product in frame. References visual consistency.",
-      "dialogue": "What character says — max 245 chars, personal framing, TikTok-native",
+      "location": "Specific different location for this scene",
+      "action": "Exact physical action character is doing — must be dynamic",
+      "visualPrompt": "Full Grok/Higgsfield prompt — character action + camera + environment. NO product. References visual consistency block.",
+      "dialogue": "What character says — max 245 chars, ${isShoppable ? 'personal experience leading to product' : 'pure entertainment/trend/humor, not about the product'}",
       "delivery": "lip-sync or tts-overlay",
-      "overlayText": "Any on-screen text, disclaimer, or emphasis word"
+      "overlayText": "On-screen text, disclaimer, trend text, or CTA"
     }
   ],
   "broll": [
@@ -482,7 +520,8 @@ Respond ONLY with this exact JSON. No markdown, no explanation, nothing else:
     "Turn on AI label before posting",
     "Run through TikTok Video Pre-Check tool",
     "Verify no product appears in character scenes",
-    "Confirm all dialogue is under 245 chars"
+    "Confirm all dialogue is under 245 chars",
+    ${isShoppable ? '"Verify product link is attached before posting"' : '"Do NOT attach product link — this is non-shoppable content"'}
   ]
 }`;
 }
@@ -595,6 +634,7 @@ function renderBroll(broll){
 
 function renderVideoBlock(vid, vidKey){
   const typeBadge = vid.videoType==='image'?'<span class="badge badge-img">Image → Video</span>':vid.videoType==='experimental'?'<span class="badge badge-exp">Experimental</span>':'<span class="badge badge-prompt">Prompt → Video</span>';
+  const shopBadge = vid.contentType==='non-shoppable'?'<span class="badge badge-nonshoppable">Non-Shoppable</span>':'<span class="badge badge-shoppable">Shoppable</span>';
   const typeClass = vid.videoType==='image'?'type-img':vid.videoType==='experimental'?'type-exp':'type-prompt';
   const hasImgPrompt = vid.videoType==='image' && vid.characterImagePrompt;
 
@@ -603,6 +643,7 @@ function renderVideoBlock(vid, vidKey){
       <div class="video-format">${esc(vid.format)}</div>
       <div class="badges">
         ${typeBadge}
+        ${shopBadge}
         <span class="badge ${statusClass(vid.status)}" id="sbadge-${vidKey}">${statusLabel(vid.status)}</span>
       </div>
     </div>
@@ -691,11 +732,12 @@ async function regenVideo(vidKey){
 
   try{
     const productInfo = vid.productInfo || product.desc;
-    const raw=await callClaude([{role:'user',content:buildVideoPrompt(product,productInfo,vid.videoType,fb)}],2500);
+    const raw=await callClaude([{role:'user',content:buildVideoPrompt(product,productInfo,vid.videoType,fb,vid.contentType||'shoppable')}],2500);
     const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
     vid.scenes=parsed.scenes; vid.format=parsed.format; vid.character=parsed.character;
     vid.visualConsistency=parsed.visualConsistency; vid.broll=parsed.broll;
     vid.complianceCheck=parsed.complianceCheck; vid.status='draft'; vid.feedback=fb;
+    if(!vid.contentType) vid.contentType='shoppable';
     if(parsed.characterImagePrompt)vid.characterImagePrompt=parsed.characterImagePrompt;
     state.videos[vidKey]=vid; saveState();
 
@@ -715,33 +757,35 @@ async function generateVideo(productId, videoType){
   const product=PRODUCTS.find(p=>p.id===productId);
   const card=document.getElementById(`card-${productId}`);
   const videosList=document.getElementById(`vlist-${productId}`);
+  const contentType=getContentType(productId);
 
   const btnClass=videoType==='image'?'.btn-img':videoType==='experimental'?'.btn-exp':'.btn-prompt';
   const btn=card.querySelector(btnClass);
   const origLabel=btn.textContent;
   btn.disabled=true; btn.textContent='Generating...';
 
+  const typeLabel=videoType==='image'?'image → video':videoType==='experimental'?'experimental':'prompt → video';
+  const shopLabel=contentType==='shoppable'?'shoppable':'non-shoppable';
+
   const placeholder=document.createElement('div');
   placeholder.className='video-block';
-  placeholder.innerHTML=`<div class="generating"><div class="dots"><span></span><span></span><span></span></div><div><div>Building ${videoType==='image'?'image → video':videoType==='experimental'?'experimental':' prompt → video'} for ${esc(product.name)}...</div><div class="generating-detail">Step 1 of 2: Researching product on Distacart + Amazon.in</div></div></div>`;
+  placeholder.innerHTML=`<div class="generating"><div class="dots"><span></span><span></span><span></span></div><div><div>Building ${typeLabel} · ${shopLabel} for ${esc(product.name)}...</div><div class="generating-detail">Step 1 of 2: Researching product on Distacart + Amazon.in</div></div></div>`;
   videosList.appendChild(placeholder);
   card.classList.add('has-videos');
   const emptyState=videosList.querySelector('.empty-state');
   if(emptyState)emptyState.remove();
 
   try{
-    // Step 1: Research product
     placeholder.querySelector('.generating-detail').textContent='Step 1 of 2: Researching product on Distacart + Amazon.in...';
     const productInfo=await searchProductInfo(product);
 
-    // Step 2: Generate video prompts
     placeholder.querySelector('.generating-detail').textContent='Step 2 of 2: Building scenes, dialogue, and B-roll prompts...';
-    const raw=await callClaude([{role:'user',content:buildVideoPrompt(product,productInfo,videoType)}],2500);
+    const raw=await callClaude([{role:'user',content:buildVideoPrompt(product,productInfo,videoType,'',contentType)}],2500);
     const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
 
     const vidKey=`${productId}-${Date.now()}`;
     const vid={
-      productId, videoType, productInfo,
+      productId, videoType, contentType, productInfo,
       format:parsed.format, character:parsed.character,
       visualConsistency:parsed.visualConsistency,
       characterImagePrompt:parsed.characterImagePrompt||null,
@@ -757,6 +801,20 @@ async function generateVideo(productId, videoType){
   }
 
   btn.disabled=false; btn.textContent=origLabel;
+}
+
+// Track selected content type per product
+const productContentType = {};
+
+function setContentType(productId, type, btn){
+  productContentType[productId] = type;
+  const row = document.getElementById(`ctrow-${productId}`);
+  row.querySelectorAll('.ct-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function getContentType(productId){
+  return productContentType[productId] || 'shoppable';
 }
 
 function renderProducts(){
@@ -777,6 +835,11 @@ function renderProducts(){
           <button class="btn-prompt" onclick="generateVideo('${p.id}','prompt')">Prompt → Video</button>
           <button class="btn-exp" onclick="generateVideo('${p.id}','experimental')">Experimental</button>
         </div>
+      </div>
+      <div class="content-toggle" id="ctrow-${p.id}">
+        <span class="toggle-label">Content type:</span>
+        <button class="ct-btn ct-shoppable active" onclick="setContentType('${p.id}','shoppable',this)">Shoppable</button>
+        <button class="ct-btn ct-nonshoppable" onclick="setContentType('${p.id}','non-shoppable',this)">Non-Shoppable</button>
       </div>
       <div class="videos-list" id="vlist-${p.id}">
         ${existing||'<div class="empty-state">No videos yet — choose a format above to generate.</div>'}
